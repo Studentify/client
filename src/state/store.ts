@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { rootReducer, StoreState } from './rootReducer';
 
 
-export const configureStore = (): Store<StoreState> => {
+function configureStore(): Store<StoreState> {
   const middlewares: Middleware[] = [thunk];
   const middlewareEnhancer = applyMiddleware(...middlewares);
   const enhancers = [middlewareEnhancer];
@@ -14,3 +14,6 @@ export const configureStore = (): Store<StoreState> => {
 
   return store;
 }
+
+export const store = configureStore();
+export type AppDispatch = typeof store.dispatch;
