@@ -1,6 +1,6 @@
 import React from "react";
 import { ErrorMessage, Field } from "formik";
-import TextField from "@material-ui/core/TextField";
+import { CustomTextField } from "./formikField-styles";
 
 interface FormikFieldProps {
 	name: string;
@@ -20,10 +20,10 @@ const FormikField: React.FC<FormikFieldProps> = ({
 			<Field
 				required={required}
 				autoComplete="off"
-				as={TextField}
-				label={label}
 				name={name}
-				fullWidth
+				as={CustomTextField}
+				label={label}
+				variant="outlined"
 				type={type}
 				helperText={<ErrorMessage name={name} />}
 			/>

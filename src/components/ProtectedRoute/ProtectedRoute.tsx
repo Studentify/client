@@ -1,18 +1,12 @@
+import React from "react";
 import { Redirect, Route, RouteProps } from "react-router";
 
 export type ProtectedRouteProps = {
 	isAuthenticated: boolean;
 } & RouteProps;
 
-const ProtectedRoute = ({
-	isAuthenticated,
-	...routeProps
-}: ProtectedRouteProps) => {
-	return isAuthenticated ? (
-		<Route {...routeProps} />
-	) : (
-		<Redirect to={"/login"} />
-	);
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ isAuthenticated, ...routeProps }) => {
+	return isAuthenticated ? <Route {...routeProps} /> : <Redirect to={"/login"} />;
 };
 
 export default ProtectedRoute;

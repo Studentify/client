@@ -1,11 +1,11 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
-
-import Button from "@material-ui/core/Button";
 
 import { FormikField } from "components/FormikField";
+import { ContentWrapper } from "styles/ContentWrapper";
+import { OrangeButton } from "styles/OrangeButton";
+import { Link } from "styles/Link";
 
 interface FormValues {
 	email: string;
@@ -20,9 +20,7 @@ const initialValues: FormValues = {
 const LoginSchema = Yup.object().shape({
 	email: Yup.string().email().required("Email is required"),
 
-	password: Yup.string()
-		.required("Password is required")
-		.min(2, "Provide correct password"),
+	password: Yup.string().required("Password is required").min(2, "Provide correct password"),
 });
 
 const Login: React.FC = () => {
@@ -31,41 +29,29 @@ const Login: React.FC = () => {
 	};
 
 	return (
-		<div>
+		<ContentWrapper>
 			<h1>Login</h1>
-			<Formik
-				initialValues={initialValues}
-				onSubmit={handleSubmit}
-				validationSchema={LoginSchema}
-			>
+			<br />
+			<Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={LoginSchema}>
 				{({ dirty, isValid }) => {
 					return (
 						<Form>
 							<FormikField name="email" label="Email" required />
-							<FormikField
-								type="password"
-								name="password"
-								label="Password"
-								required
-							/>
+							<FormikField type="password" name="password" label="Password" required />
 
-							<Button
-								variant="contained"
-								color="primary"
-								disabled={!dirty || !isValid}
-								type="submit"
-							>
+							<OrangeButton variant="contained" disabled={!dirty || !isValid} type="submit">
 								Login
-							</Button>
+							</OrangeButton>
 						</Form>
 					);
 				}}
 			</Formik>
 
+			<br />
 			<h3>
-				Don't have account? <Link to="/register">Register!</Link>
+				New to Studentify? <Link to="/register">Register!</Link>
 			</h3>
-		</div>
+		</ContentWrapper>
 	);
 };
 

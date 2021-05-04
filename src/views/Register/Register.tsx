@@ -1,11 +1,11 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
-
-import Button from "@material-ui/core/Button";
 
 import { FormikField } from "components/FormikField";
+import { ContentWrapper } from "styles/ContentWrapper";
+import { OrangeButton } from "styles/OrangeButton";
+import { Link } from "styles/Link";
 
 interface FormValues {
 	userName: string;
@@ -36,9 +36,7 @@ const RegisterSchema = Yup.object().shape({
 			"Invalid phone number"
 		),
 
-	password: Yup.string()
-		.required("Password is required")
-		.min(2, "Provide correct password"),
+	password: Yup.string().required("Password is required").min(2, "Provide correct password"),
 });
 
 const Register: React.FC = () => {
@@ -47,8 +45,9 @@ const Register: React.FC = () => {
 	};
 
 	return (
-		<div>
+		<ContentWrapper>
 			<h1>Register</h1>
+			<br />
 			<Formik
 				initialValues={initialValues}
 				onSubmit={handleSubmit}
@@ -63,29 +62,20 @@ const Register: React.FC = () => {
 
 							<FormikField name="phoneNumber" label="Phone Number" required />
 
-							<FormikField
-								type="password"
-								name="password"
-								label="Password"
-								required
-							/>
+							<FormikField type="password" name="password" label="Password" required />
 
-							<Button
-								variant="contained"
-								color="primary"
-								disabled={!dirty || !isValid}
-								type="submit"
-							>
+							<OrangeButton variant="contained" disabled={!dirty || !isValid} type="submit">
 								Create Account
-							</Button>
+							</OrangeButton>
 						</Form>
 					);
 				}}
 			</Formik>
+			<br />
 			<h3>
 				Already have an account? <Link to="/login">Login!</Link>
 			</h3>
-		</div>
+		</ContentWrapper>
 	);
 };
 
