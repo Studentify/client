@@ -1,15 +1,29 @@
-import React from 'react';
+import React from "react";
 
-import { GlobalStyles, Layout } from './App.css';
+import { Switch, Route } from "react-router-dom";
 
+import { Home, Login, Register } from "views";
+// import { ProtectedRoute } from "components/ProtectedRoute";
+import { GlobalStyles, Layout } from "./App.css";
 
-function App() {
-  return (
-    <Layout>
-      <GlobalStyles />
-      <h1>Studentify here</h1>
-    </Layout>
-  );
-}
+const App = () => {
+	return (
+		<Layout>
+			<GlobalStyles />
+			<Switch>
+				<Route path="/login" component={Login} />
+				<Route path="/register" component={Register} />
+				<Route path="/" exact component={Home} />
+
+				{/* <ProtectedRoute
+					isAuthenticated={false}
+					path="/"
+					exact
+					component={Home}
+				/> */}
+			</Switch>
+		</Layout>
+	);
+};
 
 export default App;
