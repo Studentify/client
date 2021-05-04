@@ -31,10 +31,7 @@ const RegisterSchema = Yup.object().shape({
 
 	phoneNumber: Yup.string()
 		.required("Phone number is required")
-		.matches(
-			/^([0]{1}|\+?[234]{3})([7-9]{1})([0|1]{1})([\d]{1})([\d]{7})$/g,
-			"Invalid phone number"
-		),
+		.matches(/[0-9]{3}-[0-9]{3}-[0-9]{3}/g, "Format: 123-123-123"),
 
 	password: Yup.string().required("Password is required").min(2, "Provide correct password"),
 });
