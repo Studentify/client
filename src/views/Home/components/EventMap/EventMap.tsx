@@ -1,11 +1,13 @@
 import React from "react";
 
+import { MapWrapper } from "./EventMap-style";
+
 
 const EventMap = () => {
   return (
-    <div>
-      HERE WILL BE A MAP
-    </div>
+    <MapWrapper>
+      There will be the map
+    </MapWrapper>
   )
 }
 
