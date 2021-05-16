@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Wrapper } from './AddEventForm-style';
+import { Wrapper } from "./AddEventForm-style";
 
 
 const AddEventForm = React.forwardRef(() => {
