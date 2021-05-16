@@ -35,11 +35,26 @@ const Home: React.FC = () => {
 		}
 	}, []);
 
+	// Temporary to show some interaction
+	const addEvent = () => {
+		const newEvent = {
+			id: Math.floor(Math.random()*10000),
+			eventType: "INFO",
+			name: "New Event here",
+			creationDate: new Date().toISOString(),
+			expiryDate: new Date().toISOString(),
+			location: "Cracow",
+			description: "This is descrption of a brand new Event. This is gonna be awesome",
+			studentifyAccountId: 4,
+		}
+		setEvents(prev => [...prev, newEvent])
+	}
+
 	return (
 		<HomeLayout>
 			<ColumnView>
 				<EventList events={events}/>
-				<AddEventButton color="primary" aria-label="add">
+				<AddEventButton color="primary" aria-label="add" onClick={addEvent}>
         	<AddIcon />
       	</AddEventButton>
 			</ColumnView>

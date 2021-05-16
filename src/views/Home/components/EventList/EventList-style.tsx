@@ -5,6 +5,7 @@ export const List = styled.ul`
   list-style-type: none;
   position: relative;
   height: 100%;
+  overflow-y: scroll;
 `;
 
 export const EventsHeader = styled.header`
