@@ -2,7 +2,7 @@ import React from "react";
 
 import { Switch, Route } from "react-router-dom";
 
-import { Home, Login, Register } from "views";
+import { Home, Landing, Login, Register } from "views";
 // import { ProtectedRoute } from "components/ProtectedRoute";
 import { GlobalStyles, Layout } from "./App.css";
 
@@ -11,9 +11,10 @@ const App = () => {
 		<Layout>
 			<GlobalStyles />
 			<Switch>
-				<Route path="/login" component={Login} />
+				<Route path="/" exact component={Landing} />
 				<Route path="/register" component={Register} />
-				<Route path="/" exact component={Home} />
+				<Route path="/login" component={Login} />
+				<Route path="/home" component={Home} />
 
 				{/* <ProtectedRoute
 					isAuthenticated={false}
