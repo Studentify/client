@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-import Map from 'ol/Map';
-import View from 'ol/View';
-import TileLayer from 'ol/layer/Tile';
-import { fromLonLat } from 'ol/proj';
-import XYZ from 'ol/source/XYZ';
+import Map from "ol/Map";
+import View from "ol/View";
+import TileLayer from "ol/layer/Tile";
+import { fromLonLat, toLonLat } from "ol/proj";
+import XYZ from "ol/source/XYZ";
 
 import { MapWrapper, MapElement } from "./EventMap-style";
 
@@ -14,7 +14,7 @@ const EventMap = () => {
     layers: [
       new TileLayer({
         source: new XYZ({
-          url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          url: "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         })
       })
     ],
@@ -26,6 +26,13 @@ const EventMap = () => {
 
   useEffect(() => {
     map.setTarget("map");
+    map.on("click", async e => {
+      const [lon, lat] = toLonLat(e.coordinate);
+      fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
+    })
   }, [])
 
   return (
