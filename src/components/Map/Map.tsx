@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 import * as ol from 'ol';
+// import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
-import { fromLonLat } from 'ol/proj';
+import { fromLonLat, toLonLat } from 'ol/proj';
 import XYZ from 'ol/source/XYZ';
 
 import { MapBox } from './Map-style';
@@ -23,7 +24,7 @@ const Map: React.FC<MapProps> = ({ onClick }) => {
     return () => {
       map.dispose();
     }
-  }, [map, onClick]);
+  }, [map]);
 
   return (
     <MapBox id="map-box" />
