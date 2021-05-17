@@ -58,8 +58,8 @@ const AddEventForm = React.forwardRef<HTMLElement, AddEventFormProps>(({ onAddEv
 	const handleSubmit = async (eventAttributes: EventAttributes): Promise<void> => {
     try {
       const res = await axios.post<Event>("/Info", eventAttributes);
-			console.log(eventAttributes);
       onAddEvent(res.data);
+			closeModal();
     } catch(err) {
       console.log(err);
     }
