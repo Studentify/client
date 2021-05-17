@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "api/axiosInstance";
 
 import AddIcon from "@material-ui/icons/Add";
+import Modal from '@material-ui/core/Modal';
 
-import { EventList, EventMap } from "./components";
+import { EventList, EventMap, AddEventForm } from "./components";
 
 import { HomeLayout, ColumnView, AddEventButton } from "./Home-styles";
 
 
-interface Event {
+export interface Event {
 	id: number;
 	eventType: string;
 	name: string;
@@ -21,6 +22,7 @@ interface Event {
 
 const Home: React.FC = () => {
 	const [events, setEvents] = useState<Event[]>([]);
+	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
 		fetchEvents();
@@ -35,32 +37,28 @@ const Home: React.FC = () => {
 		}
 	}, []);
 
-	// Temporary to show some interaction
-	const addEvent = () => {
-		const newEvent = {
-			id: Math.floor(Math.random()*10000),
-			eventType: "INFO",
-			name: "New Event here",
-			creationDate: new Date().toISOString(),
-			expiryDate: new Date().toISOString(),
-			location: "Cracow",
-			description: "This is descrption of a brand new Event. This is gonna be awesome",
-			studentifyAccountId: 4,
-		}
-		setEvents(prev => [...prev, newEvent])
+	const addEvent = (event: Event) => {
+		setEvents(prev => [...prev, event])
+	}
+
+	const closeModal = () => {
+		setOpen(false)
 	}
 
 	return (
 		<HomeLayout>
 			<ColumnView>
 				<EventList events={events}/>
-				<AddEventButton color="primary" aria-label="add" onClick={addEvent}>
+				<AddEventButton color="primary" aria-label="add" onClick={() => setOpen(true)}>
         	<AddIcon />
       	</AddEventButton>
 			</ColumnView>
 			<ColumnView>
 				<EventMap />
 			</ColumnView>
+			<Modal open={open} onClose={closeModal}>
+				<AddEventForm onAddEvent={addEvent} closeModal={closeModal}/>
+			</Modal>
 		</HomeLayout>
 	);
 };

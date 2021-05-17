@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Typography, Card, CardActionArea } from '@material-ui/core';
+import styled from "styled-components";
+import { Typography, Card, CardActionArea } from "@material-ui/core";
 
 
 export const StepWrapper = styled.div`
@@ -45,6 +45,7 @@ export const ErrorMessage = styled(Typography)`
 `;
 
 export const Controls = styled.div`
+  grid-column: 1/-1;
   display: flex;
   justify-content: space-between;
 `;

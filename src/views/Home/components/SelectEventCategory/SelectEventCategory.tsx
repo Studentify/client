@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import { Typography, Button } from '@material-ui/core';
-import { StepWrapper, Tiles, OptionCard, OptionContent, ErrorMessage, Controls } from './SelectEventCategory-style';
-
+import { Typography, Button } from "@material-ui/core";
+import { StepWrapper, Tiles, OptionCard, OptionContent, ErrorMessage, Controls } from "./SelectEventCategory-style";
 
 interface SelectEventCategoryProps {
 	onSelectCategory(category: number): void;
+	closeModal(): void;
 }
 
 const categories = [
@@ -15,7 +15,7 @@ const categories = [
 ]
 
 
-const SelectEventCategory: React.FC<SelectEventCategoryProps> = ({ onSelectCategory }) => {
+const SelectEventCategory: React.FC<SelectEventCategoryProps> = ({ onSelectCategory, closeModal }) => {
 	const [currentCategory, setCurrentCategory] = useState(-1);
 	const [message, setMessage] = useState("");
 
@@ -32,27 +32,29 @@ const SelectEventCategory: React.FC<SelectEventCategoryProps> = ({ onSelectCateg
 	}
 
 	return (
-		<StepWrapper>
-      <Typography variant="h5">
-        Choose event type:
-      </Typography>
-			<Tiles>
-        {categories.map(({ name, id }) => (
-          <OptionCard elevation={7} onClick={() => setCurrentCategory(id)}>
-            <OptionContent isSelected={currentCategory === id}>
-              <Typography variant="h6">
-                {name}
-              </Typography>
-            </OptionContent>
-          </OptionCard>
-        ))}
-			</Tiles>
-			<ErrorMessage color="secondary">{message}</ErrorMessage>
-      <Controls>
-			  <Button variant="contained" color="secondary">cancel</Button>
-			  <Button variant="contained" color="primary" onClick={handleConfirmCategory}>next</Button>
-      </Controls>
-		</StepWrapper>
+		<>
+			<StepWrapper>
+				<Typography variant="h5">
+					Choose event type:
+				</Typography>
+				<Tiles>
+					{categories.map(({ name, id }) => (
+						<OptionCard elevation={7} onClick={() => setCurrentCategory(id)}>
+							<OptionContent isSelected={currentCategory === id}>
+								<Typography variant="h6">
+									{name}
+								</Typography>
+							</OptionContent>
+						</OptionCard>
+					))}
+				</Tiles>
+				<ErrorMessage color="secondary">{message}</ErrorMessage>
+			</StepWrapper>
+			<Controls>
+				<Button variant="contained" color="secondary" onClick={closeModal}>cancel</Button>
+				<Button variant="contained" color="primary" onClick={handleConfirmCategory}>next</Button>
+			</Controls>
+		</>
 	)
 }
 
