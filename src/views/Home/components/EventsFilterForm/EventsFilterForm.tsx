@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Wrapper } from './EventsFilterForm-style';
+import { Wrapper } from "./EventsFilterForm-style";
 
 
 const EventsFilterForm = React.forwardRef(() => {
