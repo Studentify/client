@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { Switch, Route } from 'react-router-dom';
 import axios from "api/axiosInstance";
 
 import AddIcon from "@material-ui/icons/Add";
 import Modal from '@material-ui/core/Modal';
 
+import { InfoEvent } from 'views';
 import { EventList, EventMap, AddEventForm } from "./components";
-
 import { HomeLayout, ColumnView, AddEventButton } from "./Home-styles";
 
 
@@ -48,10 +49,21 @@ const Home: React.FC = () => {
 	return (
 		<HomeLayout>
 			<ColumnView>
-				<EventList events={events}/>
-				<AddEventButton color="primary" aria-label="add" onClick={() => setOpen(true)}>
+				<Switch>
+					<Route path="/home" exact>
+						<EventList events={events}/>
+						<AddEventButton color="primary" aria-label="add" onClick={() => setOpen(true)}>
         	<AddIcon />
       	</AddEventButton>
+					</Route>
+					<Route path="/home/info/:id" component={InfoEvent}/>
+					<Route path="/home/meeting/:id">
+						<div>meeting</div>
+					</Route>
+					<Route path="/home/trade-offer/:id">
+						<div>Offer</div>
+					</Route>
+				</Switch>
 			</ColumnView>
 			<ColumnView>
 				<EventMap />

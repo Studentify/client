@@ -11,7 +11,7 @@ export const HomeLayout = styled.section`
 
 export const ColumnView = styled.section`
   flex: 1;
-  background-color: #cebebe;
+  background-color: #f3f3f3;
   display: flex;
   flex-direction: column;
   position: relative;
