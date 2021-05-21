@@ -2,8 +2,10 @@ import React from "react";
 
 import Button from "@material-ui/core/Button";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import Chip from '@material-ui/core/Chip';
 
-import { List, EventsHeader, EventItem, EventHeader, EventDate } from "./EventList-style";
+import { List, EventContainer, EventMeta, EventsHeader, EventContent, EventHeader, EventDate, BlockLink } from "./EventList-style";
 
 interface Event {
 	id: number;
@@ -23,13 +25,18 @@ interface EventListProps {
 
 const EventList: React.FC<EventListProps> = ({ events, openFiltersModal }) => {
   const eventItems = events.map(event => (
-    <EventItem key={event.id}>
-      <EventHeader>
-        {event.name}
-        <EventDate>{event.creationDate.substring(0, 10)}</EventDate>
-      </EventHeader>
-      <p>{event.description}</p>
-    </EventItem>
+		<BlockLink to={`/home/${event.eventType.toLowerCase()}/${event.id}`} key={event.id}>
+			<EventContainer>
+				<EventContent>
+					<EventHeader>
+						{event.name}
+						<EventDate>{event.creationDate.substring(0, 10)}</EventDate>
+					</EventHeader>
+					<EventMeta><LocationOnIcon style={{ fontSize: '1rem', color: 'gray' }}/>{event.location}</EventMeta>
+					<p>{event.description}</p>
+				</EventContent>
+			</EventContainer>
+		</BlockLink>
   ))
   return (
     <>
