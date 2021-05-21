@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import Fab from "@material-ui/core/Fab";
 
-
 export const HomeLayout = styled.section`
-  display: flex;
-  height: 90vh;
-  /* gap: 1rem; */
-  font-family: BlenderProBold, sans-serif;
+	display: flex;
+	height: calc(100vh - 70px);
+	gap: 1rem;
+	font-family: BlenderProBold, sans-serif;
 `;
 
 export const ColumnView = styled.section`

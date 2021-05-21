@@ -3,12 +3,11 @@ import { Switch, Route } from 'react-router-dom';
 import axios from "api/axiosInstance";
 
 import AddIcon from "@material-ui/icons/Add";
-import Modal from '@material-ui/core/Modal';
+import Modal from "@material-ui/core/Modal";
 
 import { InfoEvent } from 'views';
 import { EventList, EventMap, AddEventForm } from "./components";
 import { HomeLayout, ColumnView, AddEventButton } from "./Home-styles";
-
 
 export interface Event {
 	id: number;

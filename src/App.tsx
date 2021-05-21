@@ -1,27 +1,41 @@
 import React from "react";
 
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
-import { Home, Landing, Login, Register } from "views";
-// import { ProtectedRoute } from "components/ProtectedRoute";
+import { Navigation } from "components";
+import { Home, Landing, Login, Profile, Register } from "views";
+import { PageContent, PageWrapper } from "styles/ContentWrapper";
 import { GlobalStyles, Layout } from "./App.css";
 
 const App = () => {
+	const auth = true;
+
+	const userRoutes = [
+		<Route path="/home" component={Home} key="Home" />,
+		<Route path="/profile" component={Profile} key="Profile" />,
+	];
+
+	const unauthorizedRoutes = [
+		<Route path="/" exact component={Landing} key="Landing" />,
+		<Route path="/register" component={Register} key="Register" />,
+		<Route path="/login" component={Login} key="Login" />,
+	];
+
 	return (
 		<Layout>
 			<GlobalStyles />
 			<Switch>
-				<Route path="/" exact component={Landing} />
-				<Route path="/register" component={Register} />
-				<Route path="/login" component={Login} />
-				<Route path="/home" component={Home} />
-
-				{/* <ProtectedRoute
-					isAuthenticated={false}
-					path="/"
-					exact
-					component={Home}
-				/> */}
+				{auth ? (
+					<PageWrapper>
+						<Navigation />
+						<PageContent>{userRoutes}</PageContent>
+						<Route strict exact path="/">
+							<Redirect to="/home" />
+						</Route>
+					</PageWrapper>
+				) : (
+					<div>{unauthorizedRoutes}</div>
+				)}
 			</Switch>
 		</Layout>
 	);
