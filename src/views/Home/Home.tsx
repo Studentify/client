@@ -4,7 +4,6 @@ import axios from "api/axiosInstance";
 import AddIcon from "@material-ui/icons/Add";
 import Modal from "@material-ui/core/Modal";
 
-import { Navigation } from "components";
 import { EventList, EventMap, AddEventForm } from "./components";
 
 import { HomeLayout, ColumnView, AddEventButton } from "./Home-styles";

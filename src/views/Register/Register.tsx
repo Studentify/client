@@ -8,32 +8,40 @@ import { OrangeButton } from "styles/OrangeButton";
 import { Link } from "styles/Link";
 
 interface FormValues {
-	userName: string;
+	username: string;
+	firstName: string;
+	lastName: string;
 	email: string;
-	phoneNumber: string;
 	password: string;
 }
 
 const initialValues: FormValues = {
-	userName: "",
+	username: "",
+	firstName: "",
+	lastName: "",
 	email: "",
-	phoneNumber: "",
 	password: "",
 };
 
 const RegisterSchema = Yup.object().shape({
-	userName: Yup.string()
+	username: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Username is required"),
+
+	firstName: Yup.string()
 		.min(2, "Too Short!")
 		.max(50, "Too Long!")
-		.required("Firstname is required"),
+		.required("First name is required"),
+
+	lastName: Yup.string()
+		.min(2, "Too Short!")
+		.max(50, "Too Long!")
+		.required("Last name is required"),
 
 	email: Yup.string().email().required("Email is required"),
 
-	phoneNumber: Yup.string()
-		.required("Phone number is required")
-		.matches(/[0-9]{3}-[0-9]{3}-[0-9]{3}/g, "Format: 123-123-123"),
-
-	password: Yup.string().required("Password is required").min(2, "Provide correct password"),
+	password: Yup.string()
+		.required("Password is required")
+		.matches(/^.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?].**$/, "Need one special character")
+		.min(5, "Must be 5 letters long"),
 });
 
 const Register: React.FC = () => {
@@ -53,11 +61,13 @@ const Register: React.FC = () => {
 				{({ dirty, isValid }) => {
 					return (
 						<Form>
-							<FormikField name="userName" label="User Name" required />
+							<FormikField name="username" label="User Name" required />
+
+							<FormikField name="firstName" label="First name" required />
+
+							<FormikField name="lastName" label="Last name" required />
 
 							<FormikField name="email" label="Email" required />
-
-							<FormikField name="phoneNumber" label="Phone Number" required />
 
 							<FormikField type="password" name="password" label="Password" required />
 
