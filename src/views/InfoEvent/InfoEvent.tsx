@@ -12,6 +12,8 @@ import { Event } from '../Home/Home';
 
 import { ViewContainer, EventHeader, EventHeaderContent, EventControls, EventMeta, CloseButton } from './InfoEvent-style';
 
+import { stringifyEventAddress } from 'utils/event';
+
 interface Params {
   id: string;
 }
@@ -60,7 +62,7 @@ const InfoEventView = () => {
             <EventIcon /> {infoEvent?.expiryDate.substring(0, 10)}
           </EventMeta>
           <EventMeta>
-            <LocationOnIcon /> {infoEvent?.location}
+            <LocationOnIcon /> {infoEvent ? stringifyEventAddress(infoEvent) : null}
           </EventMeta>
         </EventHeaderContent>
       </EventHeader>

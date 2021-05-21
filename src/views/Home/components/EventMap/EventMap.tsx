@@ -68,7 +68,7 @@ const EventMap = ({ events = [] }: { events: Event[] }) => {
       source: new VectorSource({
         features: events.map(evt => {
           const feature = new Feature({
-            geometry: new Point(fromLonLat([evt.coordinate.lon, evt.coordinate.lat])),
+            geometry: new Point(fromLonLat([evt.location.coordinates.longitude, evt.location.coordinates.latitude])),
             name: evt.name,
             id: evt.id,
             style: eventIcon
@@ -143,7 +143,7 @@ const EventMap = ({ events = [] }: { events: Event[] }) => {
   useEffect(() => {
     const features = events.map(evt => {
       const feature =  new Feature({
-        geometry: new Point(fromLonLat([evt.coordinate.lon, evt.coordinate.lat])),
+        geometry: new Point(fromLonLat([evt.location.coordinates.longitude, evt.location.coordinates.latitude])),
         name: evt.name,
         id: evt.id,
       });
