@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "api/axiosInstance";
 
 import AddIcon from "@material-ui/icons/Add";
-import Modal from '@material-ui/core/Modal';
+import Modal from "@material-ui/core/Modal";
 
+import { Navigation } from "components";
 import { EventList, EventMap, AddEventForm } from "./components";
 
 import { HomeLayout, ColumnView, AddEventButton } from "./Home-styles";
-
 
 export interface Event {
 	id: number;
@@ -31,33 +31,33 @@ const Home: React.FC = () => {
 			try {
 				const res = await axios.get<Event[]>("/Events");
 				setEvents(res.data);
-			} catch(err) {
+			} catch (err) {
 				console.log(err);
 			}
 		}
 	}, []);
 
 	const addEvent = (event: Event) => {
-		setEvents(prev => [...prev, event])
-	}
+		setEvents((prev) => [...prev, event]);
+	};
 
 	const closeModal = () => {
-		setOpen(false)
-	}
+		setOpen(false);
+	};
 
 	return (
 		<HomeLayout>
 			<ColumnView>
-				<EventList events={events}/>
+				<EventList events={events} />
 				<AddEventButton color="primary" aria-label="add" onClick={() => setOpen(true)}>
-        	<AddIcon />
-      	</AddEventButton>
+					<AddIcon />
+				</AddEventButton>
 			</ColumnView>
 			<ColumnView>
 				<EventMap />
 			</ColumnView>
 			<Modal open={open} onClose={closeModal}>
-				<AddEventForm onAddEvent={addEvent} closeModal={closeModal}/>
+				<AddEventForm onAddEvent={addEvent} closeModal={closeModal} />
 			</Modal>
 		</HomeLayout>
 	);

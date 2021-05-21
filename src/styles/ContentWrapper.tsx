@@ -16,3 +16,13 @@ export const ContentWrapper = styled.div`
 		padding: 20px;
 	}
 `;
+
+export const PageWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+`;
+
+export const PageContent = styled.div`
+	flex-grow: 1;
+`;
