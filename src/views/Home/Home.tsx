@@ -3,12 +3,11 @@ import { Switch, Route } from 'react-router-dom';
 import axios from "api/axiosInstance";
 
 import AddIcon from "@material-ui/icons/Add";
-import Modal from '@material-ui/core/Modal';
+import Modal from "@material-ui/core/Modal";
 
 import { InfoEvent } from 'views';
 import { EventList, EventMap, AddEventForm } from "./components";
 import { HomeLayout, ColumnView, AddEventButton } from "./Home-styles";
-
 
 export interface Event {
 	id: number;
@@ -36,13 +35,7 @@ const Home: React.FC = () => {
 		async function fetchEvents() {
 			try {
 				const res = await axios.get<Event[]>("/Events");
-				setEvents(res.data.map(evt => ({
-					...evt,
-					coordinate: {
-						lon: 19.916 + Math.random()/30*(Math.random() > 0.5 ? 1 : -1),
-						lat: 50.067 + Math.random()/40*(Math.random() > 0.5 ? 1 : -1),
-					}
-				})));
+				setEvents(res.data);
 			} catch(err) {
 				console.log(err);
 			}
@@ -50,15 +43,9 @@ const Home: React.FC = () => {
 	}, []);
 
 	const addEvent = (event: Event) => {
-		setEvents(prev => [...prev, {
-			...event,
-			coordinate: {
-				lon: 19.916 + Math.random()/30*(Math.random() > 0.5 ? 1 : -1),
-				lat: 50.067 + Math.random()/40*(Math.random() > 0.5 ? 1 : -1),
-			}
-		}])
-	}
-
+		setEvents((prev) => [...prev, event]);
+	};
+  
 	const closeFiltersModal = () => {
 		setIsFiltersModalOpen(false)
 	}
