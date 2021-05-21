@@ -18,9 +18,10 @@ interface Event {
 
 interface EventListProps {
   events: Event[];
+	openFiltersModal(): void;
 }
 
-const EventList: React.FC<EventListProps> = ({ events }) => {
+const EventList: React.FC<EventListProps> = ({ events, openFiltersModal }) => {
   const eventItems = events.map(event => (
     <EventItem key={event.id}>
       <EventHeader>
@@ -39,6 +40,7 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
 					variant="contained" 
 					size="small" 
 					color="primary"
+					onClick={openFiltersModal}
 				>
 					filters
 				</Button>
