@@ -9,17 +9,17 @@ export const HomeLayout = styled.section`
 `;
 
 export const ColumnView = styled.section`
-	flex: 1;
-	background-color: #cebebe;
-	display: flex;
-	flex-direction: column;
-	position: relative;
+  flex: 1;
+  background-color: #f3f3f3;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 `;
 
 export const AddEventButton = styled(Fab)`
-	&& {
-		position: absolute;
-		bottom: 1rem;
-		right: 1rem;
-	}
+  && {
+    position: absolute;
+    bottom: 1rem;
+    right: 2rem;
+  }
 `;
