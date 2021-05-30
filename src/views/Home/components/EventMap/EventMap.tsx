@@ -17,9 +17,6 @@ import { Icon, Style, Text, Fill, Stroke, Circle } from 'ol/style';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import Overlay from 'ol/Overlay';
 import EventPopup from '../EventPopup';
-import { easeIn } from 'ol/easing';
-
-import { Event } from '../../Home';
 
 
 const eventIcon = new Style({
@@ -52,13 +49,13 @@ function createClusterIcon(size: number): Style {
   });
 }
 
-const EventMap = ({ events = [] }: { events: Event[] }) => {
+const EventMap = ({ events = [] }: { events: StudentifyEvent[] }) => {
   // const [markers, setMarkers] = useState<Event[]>(events);
   const popupRef = React.useRef<HTMLDivElement>(null);
-  const eventsRef = React.useRef<Event[]>();
+  const eventsRef = React.useRef<StudentifyEvent[]>();
   eventsRef.current = events;
 
-  const [event, setEvent] = useState<Event>();
+  const [event, setEvent] = useState<StudentifyEvent>();
 
   const [popup, setPopup] = useState<Overlay>(new Overlay({}));
   const pRef = React.useRef<Overlay>();

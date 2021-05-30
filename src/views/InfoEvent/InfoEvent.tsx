@@ -8,7 +8,6 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CategoryIcon from '@material-ui/icons/Category';
 import EventIcon from '@material-ui/icons/Event';
 import Button from '@material-ui/core/Button';
-import { Event } from '../Home/Home';
 
 import { ViewContainer, EventHeader, EventHeaderContent, EventControls, EventMeta, CloseButton } from './InfoEvent-style';
 
@@ -18,7 +17,7 @@ interface Params {
   id: string;
 }
 
-interface InfoEvent extends Event {
+interface InfoEvent extends StudentifyEvent {
   
 }
 
