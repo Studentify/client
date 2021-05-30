@@ -5,7 +5,6 @@ export const HomeLayout = styled.section`
 	display: flex;
 	margin-top: 70px;
 	height: calc(100vh - 70px);
-	gap: 1rem;
 	font-family: BlenderProBold, sans-serif;
 `;
 

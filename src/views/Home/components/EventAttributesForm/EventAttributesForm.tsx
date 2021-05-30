@@ -34,6 +34,7 @@ const EventAttributesForm: React.FC<EventAttributesFormProps> = ({ category, bac
 
 			setFieldValue("longitude", coords.lon);
 			setFieldValue("latitude", coords.lat);
+			setFieldValue("address", { town: city, street, houseNumber, postalCode });
 
 			const place = `${street || ""} ${houseNumber || ""}, ${city} ${postalCode}`;
 			setPlaceName(place);

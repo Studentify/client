@@ -1,5 +1,5 @@
 interface StudentifyEvent {
-	id: number;
+  id: number;
 	eventType: string;
 	name: string;
 	creationDate: string;
@@ -18,5 +18,5 @@ interface StudentifyEvent {
 			street?: string;
 			houseNumber?: string;
 		};
-	};
+	}
 }

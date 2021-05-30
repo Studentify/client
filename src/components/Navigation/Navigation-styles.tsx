@@ -12,7 +12,8 @@ export const Nav = styled.nav`
 	width: 100%;
 	justify-content: space-between;
 	align-items: center;
-	background-color: #333;
+	/* background-color: #333; */
+	background-color: #4561bd;
 	color: #d6d6d6c5;
 	height: 70px;
 	font-family: BlenderProBold, sans-serif;

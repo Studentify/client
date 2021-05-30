@@ -5,27 +5,13 @@ import axios from "api/axiosInstance";
 import AddIcon from "@material-ui/icons/Add";
 import Modal from "@material-ui/core/Modal";
 
-import { InfoEvent } from 'views';
+import { InfoEvent, MeetingEvent, TradeOfferEvent } from 'views';
 import { EventList, EventMap, AddEventForm } from "./components";
 import { HomeLayout, ColumnView, AddEventButton } from "./Home-styles";
 
-export interface Event {
-	id: number;
-	eventType: string;
-	name: string;
-	creationDate: string;
-	expiryDate: string;
-	location: string;
-	description: string;
-	studentifyAccountId: number;
-	coordinate: {
-		lon: number;
-		lat: number;
-	}
-}
 
 const Home: React.FC = () => {
-	const [events, setEvents] = useState<Event[]>([]);
+	const [events, setEvents] = useState<StudentifyEvent[]>([]);
 	const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
 	const [isEventModalOpen, setIsEventModalOpen] = useState(false);
 
@@ -34,7 +20,7 @@ const Home: React.FC = () => {
 
 		async function fetchEvents() {
 			try {
-				const res = await axios.get<Event[]>("/Events");
+				const res = await axios.get<StudentifyEvent[]>("/StudentifyEvents");
 				setEvents(res.data);
 			} catch(err) {
 				console.log(err);
@@ -42,10 +28,10 @@ const Home: React.FC = () => {
 		}
 	}, []);
 
-	const addEvent = (event: Event) => {
-		setEvents((prev) => [...prev, event]);
-	};
-  
+	const addEvent = (event: StudentifyEvent) => {
+		setEvents(prev => [event, ...prev]);
+	}
+
 	const closeFiltersModal = () => {
 		setIsFiltersModalOpen(false)
 	}
@@ -74,12 +60,8 @@ const Home: React.FC = () => {
 						</AddEventButton>
 					</Route>
 					<Route path="/home/info/:id" component={InfoEvent}/>
-					<Route path="/home/meeting/:id">
-						<div>meeting</div>
-					</Route>
-					<Route path="/home/trade-offer/:id">
-						<div>Offer</div>
-					</Route>
+					<Route path="/home/meeting/:id" component={MeetingEvent}/>
+					<Route path="/home/tradeoffer/:id" component={TradeOfferEvent}/>
 				</Switch>
 			</ColumnView>
 			<ColumnView>

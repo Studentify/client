@@ -8,15 +8,16 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CategoryIcon from '@material-ui/icons/Category';
 import EventIcon from '@material-ui/icons/Event';
 import Button from '@material-ui/core/Button';
-import { Event } from '../Home/Home';
 
-import { ViewContainer, EventHeader, EventHeaderContent, EventControls, EventMeta, CloseButton } from './InfoEvent-style';
+import { ViewContainer, EventHeader, EventHeaderContent, EventControls, EventMeta, CloseButton } from './EventViews-style';
+
+import { stringifyEventAddress } from 'utils/event';
 
 interface Params {
   id: string;
 }
 
-interface InfoEvent extends Event {
+interface InfoEvent extends StudentifyEvent {
   
 }
 
@@ -60,7 +61,7 @@ const InfoEventView = () => {
             <EventIcon /> {infoEvent?.expiryDate.substring(0, 10)}
           </EventMeta>
           <EventMeta>
-            <LocationOnIcon /> {infoEvent?.location}
+            <LocationOnIcon /> {infoEvent ? stringifyEventAddress(infoEvent) : null}
           </EventMeta>
         </EventHeaderContent>
       </EventHeader>

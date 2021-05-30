@@ -18,8 +18,6 @@ import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import Overlay from 'ol/Overlay';
 import EventPopup from '../EventPopup';
 
-import { Event } from '../../Home';
-
 
 const eventIcon = new Style({
   image: new Icon({
@@ -51,13 +49,13 @@ function createClusterIcon(size: number): Style {
   });
 }
 
-const EventMap = ({ events = [] }: { events: Event[] }) => {
+const EventMap = ({ events = [] }: { events: StudentifyEvent[] }) => {
   // const [markers, setMarkers] = useState<Event[]>(events);
   const popupRef = React.useRef<HTMLDivElement>(null);
-  const eventsRef = React.useRef<Event[]>();
+  const eventsRef = React.useRef<StudentifyEvent[]>();
   eventsRef.current = events;
 
-  const [event, setEvent] = useState<Event>();
+  const [event, setEvent] = useState<StudentifyEvent>();
 
   const [popup, setPopup] = useState<Overlay>(new Overlay({}));
   const pRef = React.useRef<Overlay>();
@@ -68,7 +66,7 @@ const EventMap = ({ events = [] }: { events: Event[] }) => {
       source: new VectorSource({
         features: events.map(evt => {
           const feature = new Feature({
-            geometry: new Point(fromLonLat([evt.coordinate.lon, evt.coordinate.lat])),
+            geometry: new Point(fromLonLat([evt.location.coordinates.longitude, evt.location.coordinates.latitude])),
             name: evt.name,
             id: evt.id,
             style: eventIcon
@@ -143,7 +141,7 @@ const EventMap = ({ events = [] }: { events: Event[] }) => {
   useEffect(() => {
     const features = events.map(evt => {
       const feature =  new Feature({
-        geometry: new Point(fromLonLat([evt.coordinate.lon, evt.coordinate.lat])),
+        geometry: new Point(fromLonLat([evt.location.coordinates.longitude, evt.location.coordinates.latitude])),
         name: evt.name,
         id: evt.id,
       });

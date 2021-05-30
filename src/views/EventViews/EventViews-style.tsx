@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Fab from '@material-ui/core/Fab';
+import Typography from '@material-ui/core/Typography';
 
 
 export const ViewContainer = styled.div`
@@ -20,7 +21,7 @@ export const EventHeader = styled.header<{ eventType: string }>`
     content: '';
     height: 100%;
     width: 20px;
-    background-color: ${props => getEventThemeColor(props.eventType)};
+    background-color: ${({ eventType }) => getEventColorByEventType(eventType)};
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
   }
@@ -41,6 +42,10 @@ export const CloseButton = styled(Fab)`
   }
 `;
 
+export const Headline = styled(Typography)<{ eventType: string }>`
+  border-bottom: 2px solid ${({ eventType }) => getEventColorByEventType(eventType)};
+`;
+
 export const EventControls = styled.div`
   display: flex;
   gap: 1rem;
@@ -54,11 +59,11 @@ export const EventMeta = styled.div`
 `;
 
 
-function getEventThemeColor(eventType: string): string {
+function getEventColorByEventType(eventType: string) {
   switch(eventType) {
-    case "INFO": return "#4561bd";
-    case "MEETING": return "orange";
-    case "TRADE-OFFER": return "green";
-    default: return "#4561bd";
+    case "INFO": return "#3f51b5";
+    case "MEETING": return "#ebc634";
+    case "TRADEOFFER": return "#40a85c"
+    default: return "#3f51b5";
   }
 }

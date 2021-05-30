@@ -38,7 +38,9 @@ const RegisterSchema = Yup.object().shape({
 
 	email: Yup.string().email().required("Email is required"),
 
-	password: Yup.string().required("Password is required").min(5, "Must be 5 letters long"),
+	password: Yup.string()
+		.required("Password is required")
+		.min(5, "Must be 5 letters long"),
 });
 
 const Register: React.FC = () => {
