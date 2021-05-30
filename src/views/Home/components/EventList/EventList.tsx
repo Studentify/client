@@ -23,7 +23,7 @@ const EventList: React.FC<EventListProps> = ({ events, openFiltersModal }) => {
 
   const eventItems = sortedEvents.map(event => (
 		<BlockLink to={`/home/${event.eventType.toLowerCase()}/${event.id}`} key={event.id}>
-			<EventContainer>
+			<EventContainer eventType={event.eventType}>
 				<EventContent>
 					<EventHeader>
 						{event.name}
