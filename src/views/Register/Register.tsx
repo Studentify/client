@@ -40,7 +40,6 @@ const RegisterSchema = Yup.object().shape({
 
 	password: Yup.string()
 		.required("Password is required")
-		.matches(/^.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?].**$/, "Need one special character")
 		.min(5, "Must be 5 letters long"),
 });
 

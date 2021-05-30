@@ -4,7 +4,6 @@ import Fab from "@material-ui/core/Fab";
 export const HomeLayout = styled.section`
 	display: flex;
 	height: calc(100vh - 70px);
-	gap: 1rem;
 	font-family: BlenderProBold, sans-serif;
 `;
 

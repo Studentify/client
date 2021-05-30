@@ -43,7 +43,6 @@ const Home: React.FC = () => {
 		async function fetchEvents() {
 			try {
 				const res = await axios.get<Event[]>("/Events");
-				console.log(res.data)
 				setEvents(res.data);
 			} catch(err) {
 				console.log(err);
@@ -52,7 +51,7 @@ const Home: React.FC = () => {
 	}, []);
 
 	const addEvent = (event: Event) => {
-		setEvents(prev => [...prev, event]);
+		setEvents(prev => [event, ...prev]);
 	}
 
 	const closeFiltersModal = () => {

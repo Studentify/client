@@ -3,10 +3,11 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import Chip from '@material-ui/core/Chip';
 import { Event } from '../../Home';
 
 import { List, EventContainer, EventMeta, EventsHeader, EventContent, EventHeader, EventDate, BlockLink } from "./EventList-style";
+
+import { stringifyEventAddress } from 'utils/event';
 
 interface EventListProps {
   events: Event[];
@@ -14,15 +15,22 @@ interface EventListProps {
 }
 
 const EventList: React.FC<EventListProps> = ({ events, openFiltersModal }) => {
-  const eventItems = events.map(event => (
+	const sortedEvents = events.sort((a, b) => {
+		const timeA = new Date(a.expiryDate).getTime();
+		const timeB = new Date(b.expiryDate).getTime();
+
+		return timeA - timeB;
+	});
+
+  const eventItems = sortedEvents.map(event => (
 		<BlockLink to={`/home/${event.eventType.toLowerCase()}/${event.id}`} key={event.id}>
 			<EventContainer>
 				<EventContent>
 					<EventHeader>
 						{event.name}
-						<EventDate>{event.creationDate.substring(0, 10)}</EventDate>
+						<EventDate>{event.expiryDate.substring(0, 10)}</EventDate>
 					</EventHeader>
-					<EventMeta><LocationOnIcon style={{ fontSize: '1rem', color: 'gray' }}/>{event.location.address.town}</EventMeta>
+					<EventMeta><LocationOnIcon style={{ fontSize: '1rem', color: 'gray' }}/>{stringifyEventAddress(event)}</EventMeta>
 					<p>{event.description}</p>
 				</EventContent>
 			</EventContainer>

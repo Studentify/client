@@ -34,7 +34,7 @@ const InfoEventView = () => {
 
 		async function fetchInfoEvent(eventId: number) {
 			try {
-				const res = await axios.get<InfoEvent>(`/Info/${eventId}`);
+				const res = await axios.get<InfoEvent>(`/Events/${eventId}`);
 				setInfoEvent(res.data);
 			} catch(err) {
 				console.log(err);

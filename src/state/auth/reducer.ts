@@ -6,7 +6,7 @@ import {
 } from './types';
 
 const initialAuthState: AuthState = {
-  isAuthentificated: false,
+  isAuthentificated: !!getAuthTokenFromLocalStorage(),
   authToken: getAuthTokenFromLocalStorage(),
 }
 

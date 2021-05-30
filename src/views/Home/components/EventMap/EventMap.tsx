@@ -17,6 +17,7 @@ import { Icon, Style, Text, Fill, Stroke, Circle } from 'ol/style';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import Overlay from 'ol/Overlay';
 import EventPopup from '../EventPopup';
+import { easeIn } from 'ol/easing';
 
 import { Event } from '../../Home';
 
