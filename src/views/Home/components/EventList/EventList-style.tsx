@@ -85,7 +85,7 @@ function getEventColorByEventType(eventType: string) {
   switch(eventType) {
     case "INFO": return "#3f51b5";
     case "MEETING": return "#ebc634";
-    case "TRADE-OFFER": return "#3eb85f"
+    case "TRADEOFFER": return "#40a85c"
     default: return "#3f51b5";
   }
 }
