@@ -1,19 +1,15 @@
 import React from "react";
-
-import Button from "@material-ui/core/Button";
-import FilterListIcon from "@material-ui/icons/FilterList";
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 
-import { List, EventContainer, EventMeta, EventsHeader, EventContent, EventHeader, EventDate, BlockLink } from "./EventList-style";
+import { List, EventContainer, EventMeta, EventContent, EventHeader, EventDate, BlockLink } from "./EventList-style";
 
 import { stringifyEventAddress } from 'utils/event';
 
 interface EventListProps {
   events: StudentifyEvent[];
-	openFiltersModal(): void;
 }
 
-const EventList: React.FC<EventListProps> = ({ events, openFiltersModal }) => {
+const EventList: React.FC<EventListProps> = ({ events }) => {
 	const sortedEvents = events.sort((a, b) => {
 		const timeA = new Date(a.expiryDate).getTime();
 		const timeB = new Date(b.expiryDate).getTime();
@@ -36,23 +32,9 @@ const EventList: React.FC<EventListProps> = ({ events, openFiltersModal }) => {
 		</BlockLink>
   ))
   return (
-    <>
-    	<EventsHeader>
-				<h1>Current Events:</h1>
-				<Button 
-					endIcon={<FilterListIcon/>} 
-					variant="contained" 
-					size="small" 
-					color="primary"
-					onClick={openFiltersModal}
-				>
-					filters
-				</Button>
-			</EventsHeader>
-      <List>
-        {eventItems}
-      </List>
-    </>
+    <List>
+      {eventItems}
+    </List>
   );
 }
 
