@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Switch, Route } from 'react-router-dom';
 import axios from "api/axiosInstance";
 
@@ -6,14 +6,29 @@ import AddIcon from "@material-ui/icons/Add";
 import Modal from "@material-ui/core/Modal";
 
 import { InfoEvent, MeetingEvent } from 'views';
-import { EventList, EventMap, AddEventForm } from "./components";
+import { EventList, EventMap, AddEventForm, EventFilters } from "./components";
 import { HomeLayout, ColumnView, AddEventButton } from "./Home-styles";
 
 
 const Home: React.FC = () => {
 	const [events, setEvents] = useState<StudentifyEvent[]>([]);
-	const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
 	const [isEventModalOpen, setIsEventModalOpen] = useState(false);
+	const [eventType, setEventType] = useState<string>("");
+	const [city, setCity] = useState<string>("");
+
+	const filteredEvents = useMemo(() => events.filter(event => {
+		let result = true;
+
+		if (city && city !== "Polska") {
+			result = result && event.location.address.town === city;
+		}
+
+		if (eventType && eventType !== "ALL") {
+			result = result && event.eventType === eventType;
+		}
+
+		return result;
+	}), [events, city, eventType]);
 
 	useEffect(() => {
 		fetchEvents();
@@ -32,16 +47,8 @@ const Home: React.FC = () => {
 		setEvents(prev => [event, ...prev]);
 	}
 
-	const closeFiltersModal = () => {
-		setIsFiltersModalOpen(false)
-	}
-
 	const closeEventModal = () => {
 		setIsEventModalOpen(false)
-	}
-
-	const openFiltersModal = () => {
-		setIsFiltersModalOpen(true)
 	}
 
 	const openEventModal = () => {
@@ -54,7 +61,8 @@ const Home: React.FC = () => {
 			<ColumnView>
 				<Switch>
 					<Route path="/home" exact>
-						<EventList events={events} openFiltersModal={openFiltersModal}/>
+						<EventFilters onSetCity={setCity} onSetEventType={setEventType}/>
+						<EventList events={filteredEvents}/>
 						<AddEventButton color="primary" aria-label="add" onClick={openEventModal}>
 							<AddIcon />
 						</AddEventButton>
@@ -67,11 +75,8 @@ const Home: React.FC = () => {
 				</Switch>
 			</ColumnView>
 			<ColumnView>
-				<EventMap events={events}/>
+				<EventMap events={filteredEvents}/>
 			</ColumnView>
-			<Modal open={isFiltersModalOpen} onClose={closeFiltersModal}>
-				<div>Filter form</div>
-			</Modal>
 			<Modal open={isEventModalOpen} onClose={closeEventModal}>
 				<AddEventForm onAddEvent={addEvent} closeModal={closeEventModal}/>
 			</Modal>
