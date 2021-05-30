@@ -20,7 +20,7 @@ const Navigation = () => {
 				<NavList open={isOpen}>
 					<li>
 						<CustomLink to="/friends" onClick={() => setIsOpen(!isOpen)}>
-							Friends
+							Messages
 						</CustomLink>
 					</li>
 					<li>
