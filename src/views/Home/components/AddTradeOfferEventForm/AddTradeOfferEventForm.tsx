@@ -6,7 +6,7 @@ import * as ol from "ol";
 import * as proj from "ol/proj";
 
 import { Map } from "components";
-import { Form, Col, Row, AddressInformation, ErrorMessage, Controls } from "./AddTradeOfferEventForm-style";
+import { Form, Col, Row, FlexRow, AddressInformation, ErrorMessage, Controls } from "./AddTradeOfferEventForm-style";
 import { Typography, Button, TextField } from "@material-ui/core";
 import LocationCityIcon from "@material-ui/icons/LocationCity";
 
@@ -76,15 +76,29 @@ const TradeOfferAttributesEventForm: React.FC<{ goBack: () => void }> = ({ goBac
     <Form>
       <Col>
         <Typography variant="h5">Add information about Event:</Typography>
-        <Field
-          required
-          autoComplete="off"
-          name="name"
-          as={TextField}
-          variant="outlined"
-          label="Event title"
-          helperText={<ErrorMessage name="name"/>}
-        />
+        <FlexRow>
+          <Field
+            required
+            autoComplete="off"
+            name="name"
+            style={{ flex: 2 }}
+            as={TextField}
+            variant="outlined"
+            label="Event title"
+            helperText={<ErrorMessage name="name"/>}
+          />
+          <Field
+            required
+            autoComplete="off"
+            name="expiryDate"
+            style={{ flex: 1 }}
+            as={TextField}
+            type="date"
+            variant="outlined"
+            label="Expiry date"
+            helperText={<ErrorMessage name="expiryDate"/>}
+          />
+        </FlexRow>
         <Field
           required
           autoComplete="off"
@@ -96,34 +110,28 @@ const TradeOfferAttributesEventForm: React.FC<{ goBack: () => void }> = ({ goBac
           label="Description"
           helperText={<ErrorMessage name="description"/>}
         />
-        <Field
-          required
-          autoComplete="off"
-          name="offer"
-          as={TextField}
-          variant="outlined"
-          label="What are you offering?"
-          helperText={<ErrorMessage name="offer"/>}
-        />
-        <Field
-          required
-          autoComplete="off"
-          name="price"
-          as={TextField}
-          variant="outlined"
-          label="What do you want to receive?"
-          helperText={<ErrorMessage name="price"/>}
-        />
-        <Field
-          required
-          autoComplete="off"
-          name="expiryDate"
-          as={TextField}
-          type="date"
-          variant="outlined"
-          label="Expiry date"
-          helperText={<ErrorMessage name="expiryDate"/>}
-        />
+        <FlexRow>
+          <Field
+            required
+            autoComplete="off"
+            name="offer"
+            fullWidth
+            as={TextField}
+            variant="outlined"
+            label="What are you offering?"
+            helperText={<ErrorMessage name="offer"/>}
+          />
+          <Field
+            required
+            autoComplete="off"
+            name="price"
+            fullWidth
+            as={TextField}
+            variant="outlined"
+            label="What do you want to receive?"
+            helperText={<ErrorMessage name="price"/>}
+          />
+        </FlexRow>
         <AddressInformation>
           <LocationCityIcon />
           {placeName || "(Choose point from map)"}

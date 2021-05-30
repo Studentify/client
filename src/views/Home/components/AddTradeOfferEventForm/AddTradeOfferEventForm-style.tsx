@@ -25,6 +25,12 @@ export const Row = styled.div`
   flex-direction: column;
 `;
 
+export const FlexRow = styled.div`
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+`;
+
 export const Controls = styled.div`
   display: flex;
   justify-content: space-between;
