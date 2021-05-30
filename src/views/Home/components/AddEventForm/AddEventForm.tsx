@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 
-import { SelectEventCategory, AddInfoEventForm } from "../";
+import { SelectEventCategory, AddInfoEventForm, AddMeetingEventForm } from "../";
 import { Container } from './AddEventForm-style';
 
+
+function getEventFormByEventType(eventType: number) {
+	switch(eventType) {
+		case 0: return AddInfoEventForm;
+		case 1: return AddMeetingEventForm;
+		default: return AddInfoEventForm
+	}
+}
 interface AddEventFormProps {
   onAddEvent(event: StudentifyEvent): void;
 	closeModal(): void;
@@ -16,10 +24,12 @@ const AddEventForm = React.forwardRef<HTMLElement, AddEventFormProps>(({ onAddEv
 		setEventCategory(-1);
 	}
 
+	const EventForm = getEventFormByEventType(eventCategory);
+
 	return (
 		<Container>
 			{eventCategory !== -1
-			? <AddInfoEventForm goBack={goBack} onAddEvent={onAddEvent} closeModal={closeModal}/>
+			? <EventForm goBack={goBack} onAddEvent={onAddEvent} closeModal={closeModal}/>
 			: <SelectEventCategory onSelectCategory={setEventCategory} closeModal={closeModal}/>}
 		</Container>
 	)
