@@ -9,31 +9,9 @@ import { InfoEvent } from 'views';
 import { EventList, EventMap, AddEventForm } from "./components";
 import { HomeLayout, ColumnView, AddEventButton } from "./Home-styles";
 
-export interface Event {
-	id: number;
-	eventType: string;
-	name: string;
-	creationDate: string;
-	expiryDate: string;
-	description: string;
-	studentifyAccountId: number;
-	location: {
-		coordinates: {
-			longitude: number;
-			latitude: number;
-		};
-		address: {
-			country?: string;
-			town?: string;
-			postalCode?: string;
-			street?: string;
-			houseNumber?: string;
-		};
-	}
-}
 
 const Home: React.FC = () => {
-	const [events, setEvents] = useState<Event[]>([]);
+	const [events, setEvents] = useState<StudentifyEvent[]>([]);
 	const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
 	const [isEventModalOpen, setIsEventModalOpen] = useState(false);
 
@@ -42,7 +20,7 @@ const Home: React.FC = () => {
 
 		async function fetchEvents() {
 			try {
-				const res = await axios.get<Event[]>("/Events");
+				const res = await axios.get<StudentifyEvent[]>("/StudentifyEvents");
 				setEvents(res.data);
 			} catch(err) {
 				console.log(err);
@@ -50,7 +28,7 @@ const Home: React.FC = () => {
 		}
 	}, []);
 
-	const addEvent = (event: Event) => {
+	const addEvent = (event: StudentifyEvent) => {
 		setEvents(prev => [event, ...prev]);
 	}
 

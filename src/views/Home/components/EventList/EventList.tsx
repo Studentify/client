@@ -3,14 +3,13 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import { Event } from '../../Home';
 
 import { List, EventContainer, EventMeta, EventsHeader, EventContent, EventHeader, EventDate, BlockLink } from "./EventList-style";
 
 import { stringifyEventAddress } from 'utils/event';
 
 interface EventListProps {
-  events: Event[];
+  events: StudentifyEvent[];
 	openFiltersModal(): void;
 }
 
@@ -24,7 +23,7 @@ const EventList: React.FC<EventListProps> = ({ events, openFiltersModal }) => {
 
   const eventItems = sortedEvents.map(event => (
 		<BlockLink to={`/home/${event.eventType.toLowerCase()}/${event.id}`} key={event.id}>
-			<EventContainer>
+			<EventContainer eventType={event.eventType}>
 				<EventContent>
 					<EventHeader>
 						{event.name}

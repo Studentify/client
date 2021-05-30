@@ -27,7 +27,7 @@ export const EventMeta = styled.header`
   align-items: center;
 `;
 
-export const EventContainer = styled.article`
+export const EventContainer = styled.article<{ eventType: string }>`
   display: flex;
   border-radius: 3px;
 
@@ -38,7 +38,7 @@ export const EventContainer = styled.article`
     display: block;
     content: "";
     width: 7px;
-    background-color: #3f51b5 !important;
+    background-color: ${({ eventType }) => getEventColorByEventType(eventType)} !important;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
   }
@@ -80,3 +80,12 @@ export const BlockLink = styled(Link)`
   text-decoration: none;
   color: black;
 `;
+
+function getEventColorByEventType(eventType: string) {
+  switch(eventType) {
+    case "INFO": return "#3f51b5";
+    case "MEETING": return "#ebc634";
+    case "TRADE-OFFER": return "#3eb85f"
+    default: return "#3f51b5";
+  }
+}

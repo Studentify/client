@@ -1,11 +1,10 @@
 import React from 'react'
-import { Event } from '../../Home';
 
 import { Container, SeeMoreButton, Link } from './EventPopup-style';
 import Typography from "@material-ui/core/Typography";
 
 
-const EventPopup = React.forwardRef<HTMLDivElement | null, { event?: Event}>((props, ref) => {
+const EventPopup = React.forwardRef<HTMLDivElement | null, { event?: StudentifyEvent}>((props, ref) => {
   const { event } = props;
 
   return (

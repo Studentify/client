@@ -8,7 +8,6 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CategoryIcon from '@material-ui/icons/Category';
 import EventIcon from '@material-ui/icons/Event';
 import Button from '@material-ui/core/Button';
-import { Event } from '../Home/Home';
 
 import { ViewContainer, EventHeader, EventHeaderContent, EventControls, EventMeta, CloseButton } from './InfoEvent-style';
 
@@ -18,7 +17,7 @@ interface Params {
   id: string;
 }
 
-interface InfoEvent extends Event {
+interface InfoEvent extends StudentifyEvent {
   
 }
 
@@ -34,7 +33,7 @@ const InfoEventView = () => {
 
 		async function fetchInfoEvent(eventId: number) {
 			try {
-				const res = await axios.get<InfoEvent>(`/Events/${eventId}`);
+				const res = await axios.get<InfoEvent>(`/Info/${eventId}`);
 				setInfoEvent(res.data);
 			} catch(err) {
 				console.log(err);
