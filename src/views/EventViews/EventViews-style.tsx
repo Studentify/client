@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Fab from '@material-ui/core/Fab';
+import Typography from '@material-ui/core/Typography';
 
 
 export const ViewContainer = styled.div`
@@ -41,6 +42,10 @@ export const CloseButton = styled(Fab)`
   }
 `;
 
+export const Headline = styled(Typography)<{ eventType: string }>`
+  border-bottom: 2px solid ${({ eventType }) => getEventColorByEventType(eventType)};
+`;
+
 export const EventControls = styled.div`
   display: flex;
   gap: 1rem;
@@ -58,7 +63,7 @@ function getEventColorByEventType(eventType: string) {
   switch(eventType) {
     case "INFO": return "#3f51b5";
     case "MEETING": return "#ebc634";
-    case "TRADE-OFFER": return "#3eb85f"
+    case "TRADEOFFER": return "#40a85c"
     default: return "#3f51b5";
   }
 }
