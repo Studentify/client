@@ -3,8 +3,7 @@ import { Typography, Card, CardActionArea } from "@material-ui/core";
 
 
 export const StepWrapper = styled.div`
-  grid-column: 1/-1;
-
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 2rem;
