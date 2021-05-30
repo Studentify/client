@@ -20,7 +20,7 @@ export const EventHeader = styled.header<{ eventType: string }>`
     content: '';
     height: 100%;
     width: 20px;
-    background-color: ${props => getEventThemeColor(props.eventType)};
+    background-color: ${({ eventType }) => getEventColorByEventType(eventType)};
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
   }
@@ -54,11 +54,11 @@ export const EventMeta = styled.div`
 `;
 
 
-function getEventThemeColor(eventType: string): string {
+function getEventColorByEventType(eventType: string) {
   switch(eventType) {
-    case "INFO": return "#4561bd";
-    case "MEETING": return "orange";
-    case "TRADE-OFFER": return "green";
-    default: return "#4561bd";
+    case "INFO": return "#3f51b5";
+    case "MEETING": return "#ebc634";
+    case "TRADE-OFFER": return "#3eb85f"
+    default: return "#3f51b5";
   }
 }

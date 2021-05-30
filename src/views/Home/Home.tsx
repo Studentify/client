@@ -5,7 +5,7 @@ import axios from "api/axiosInstance";
 import AddIcon from "@material-ui/icons/Add";
 import Modal from "@material-ui/core/Modal";
 
-import { InfoEvent } from 'views';
+import { InfoEvent, MeetingEvent } from 'views';
 import { EventList, EventMap, AddEventForm } from "./components";
 import { HomeLayout, ColumnView, AddEventButton } from "./Home-styles";
 
@@ -60,9 +60,7 @@ const Home: React.FC = () => {
 						</AddEventButton>
 					</Route>
 					<Route path="/home/info/:id" component={InfoEvent}/>
-					<Route path="/home/meeting/:id">
-						<div>meeting</div>
-					</Route>
+					<Route path="/home/meeting/:id" component={MeetingEvent}/>
 					<Route path="/home/trade-offer/:id">
 						<div>Offer</div>
 					</Route>

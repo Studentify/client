@@ -9,7 +9,7 @@ import CategoryIcon from '@material-ui/icons/Category';
 import EventIcon from '@material-ui/icons/Event';
 import Button from '@material-ui/core/Button';
 
-import { ViewContainer, EventHeader, EventHeaderContent, EventControls, EventMeta, CloseButton } from './InfoEvent-style';
+import { ViewContainer, EventHeader, EventHeaderContent, EventControls, EventMeta, CloseButton } from './EventViews-style';
 
 import { stringifyEventAddress } from 'utils/event';
 
