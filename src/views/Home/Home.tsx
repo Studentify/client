@@ -20,7 +20,7 @@ const Home: React.FC = () => {
 
 		async function fetchEvents() {
 			try {
-				const res = await axios.get<StudentifyEvent[]>("/Events");
+				const res = await axios.get<StudentifyEvent[]>("/StudentifyEvents");
 				setEvents(res.data);
 			} catch(err) {
 				console.log(err);
