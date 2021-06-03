@@ -6,6 +6,7 @@ import * as yup from "yup";
 
 import { FormWrapper, Form, Controls, ErrorMessage } from './MessageForm-style';
 import { Typography, Button, TextField } from "@material-ui/core";
+import SendIcon from '@material-ui/icons/Send';
 
 import { MessageFormProps, MessageFormAttributes } from './types';
 
@@ -68,6 +69,7 @@ const MessageForm = React.forwardRef<HTMLElement, MessageFormProps>(({ closeModa
                 color="primary" 
                 disabled={!dirty || !isValid} 
                 type="submit"
+                endIcon={<SendIcon />}
               >
                 Send
               </Button>
