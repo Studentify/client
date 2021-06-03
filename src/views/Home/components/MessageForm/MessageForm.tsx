@@ -1,20 +1,82 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
+import { Formik, Field } from 'formik';
+import * as yup from "yup";
+// import axios from 'api/axiosInstance';
 
-import { FormWrapper } from './MessageForm-style';
+import { FormWrapper, Form, Controls, ErrorMessage } from './MessageForm-style';
+import { Typography, Button, TextField } from "@material-ui/core";
 
-import { MessageFormProps } from './types';
+import { MessageFormProps, MessageFormAttributes } from './types';
 
 
-const MessageForm: React.FC<MessageFormProps> = ({ closeModal }) => {
+const MessageForm = React.forwardRef<HTMLElement, MessageFormProps>(({ closeModal }) => {
+  const { id } = useParams<{ id?: string }>();
+
+  const validationSchema = yup.object().shape({
+    content: yup.string()
+      .required('Message content is required')
+      .min(10, 'Message must be at least 10 characters long')
+      .max(100, 'Message can be at most 100 characters long')
+  });
+
+  const initialValues : MessageFormAttributes = {
+    content: ""
+  }
+
+  const handleSendMessage = async (values: any) => {
+    console.log({ values, id});
+
+    try {
+      // const res = await axios.post('/Messages', { ...values, threadId: id});
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
   return (
     <FormWrapper>
-      <form>
-
-        <button onClick={closeModal}>cancel</button>
-        <button>send</button>
-      </form>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSendMessage}
+      >
+        {({ dirty, isValid }) => (
+          <Form>
+            <Typography variant="h5">Enter your message to {"User name"}:</Typography>
+            <Field
+              required
+              autoComplete="off"
+              name="content"
+              as={TextField}
+              variant="outlined"
+              multiline
+              rows={5}
+              label="Your message:"
+              helperText={<ErrorMessage name="content"/>}
+            />
+            <Controls>
+              <Button 
+                variant="contained" 
+                color="secondary" 
+                onClick={closeModal}
+              >
+                cancel
+              </Button>
+              <Button 
+                variant="contained" 
+                color="primary" 
+                disabled={!dirty || !isValid} 
+                type="submit"
+              >
+                Send
+              </Button>
+            </Controls>
+          </Form>
+        )}
+      </Formik>
     </FormWrapper>
   )
-}
+});
 
 export default MessageForm;
