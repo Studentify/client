@@ -1,14 +1,16 @@
 import React from "react";
 
 import { Switch, Route, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 
+import { StoreState } from "state/rootReducer";
 import { Navigation } from "components";
 import { Home, Landing, Login, Profile, Register } from "views";
 import { PageContent, PageWrapper } from "styles/ContentWrapper";
 import { GlobalStyles, Layout } from "./App.css";
 
 const App = () => {
-	const auth = true;
+	const isAuthentificated = useSelector((state: StoreState) => state.auth.isAuthentificated);
 
 	const userRoutes = [
 		<Route path="/home" component={Home} key="Home" />,
@@ -25,13 +27,13 @@ const App = () => {
 		<Layout>
 			<GlobalStyles />
 			<Switch>
-				{auth ? (
+				{isAuthentificated ? (
 					<PageWrapper>
 						<Navigation />
 						<PageContent>{userRoutes}</PageContent>
-						<Route strict exact path="/">
-							<Redirect to="/home" />
-						</Route>
+						<Redirect strict exact from="/" to="/home" />
+						<Redirect strict from="/login" to="/home" />
+						<Redirect strict from="/register" to="/home" />
 					</PageWrapper>
 				) : (
 					<div>{unauthorizedRoutes}</div>

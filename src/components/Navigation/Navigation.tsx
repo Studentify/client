@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import MenuIcon from "@material-ui/icons/Menu";
+import { useDispatch } from "react-redux";
+
+import { logout } from "state/auth/actions";
 
 import { CustomLink, LogoutLink, Nav, NavList, StyledMenuIcon } from "./Navigation-styles";
 
-const Navigation = () => {
+const Navigation: React.FC = () => {
+	const dispatch = useDispatch();
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
@@ -29,7 +33,13 @@ const Navigation = () => {
 						</CustomLink>
 					</li>
 					<li>
-						<LogoutLink to="/" onClick={() => setIsOpen(!isOpen)}>
+						<LogoutLink
+							to="/"
+							onClick={() => {
+								dispatch(logout());
+								setIsOpen(!isOpen);
+							}}
+						>
 							Log out
 						</LogoutLink>
 					</li>
