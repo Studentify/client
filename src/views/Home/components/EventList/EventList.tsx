@@ -30,12 +30,14 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
 				</EventContent>
 			</EventContainer>
 		</BlockLink>
-  ))
+  ));
+  
   return (
     <List>
       {eventItems}
     </List>
   );
 }
+
 
 export default EventList;

@@ -7,7 +7,9 @@ interface NavListProps {
 
 export const Nav = styled.nav`
 	display: flex;
-	position: relative;
+	position: fixed;
+	top: 0;
+	width: 100%;
 	justify-content: space-between;
 	align-items: center;
 	/* background-color: #333; */
@@ -15,6 +17,7 @@ export const Nav = styled.nav`
 	color: #d6d6d6c5;
 	height: 70px;
 	font-family: BlenderProBold, sans-serif;
+	z-index: 100;
 `;
 
 export const NavList = styled.ul<NavListProps>`

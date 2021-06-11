@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { SelectEventCategory, AddInfoEventForm, AddMeetingEventForm } from "../";
+import { SelectEventCategory, AddInfoEventForm, AddMeetingEventForm, AddTradeOfferEventForm } from "../";
 import { Container } from './AddEventForm-style';
 
 
@@ -8,9 +8,11 @@ function getEventFormByEventType(eventType: number) {
 	switch(eventType) {
 		case 0: return AddInfoEventForm;
 		case 1: return AddMeetingEventForm;
+		case 2: return AddTradeOfferEventForm;
 		default: return AddInfoEventForm
 	}
 }
+
 interface AddEventFormProps {
   onAddEvent(event: StudentifyEvent): void;
 	closeModal(): void;
