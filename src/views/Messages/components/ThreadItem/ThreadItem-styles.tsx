@@ -1,13 +1,22 @@
-import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
 
+import { Typography } from '@material-ui/core';
+import { Link as _Link } from 'react-router-dom';
 
-export const Container = styled.article`
+
+export const Link = styled(_Link)`
+  text-decoration: none;
+  color: black;
   padding: 20px;
   border-radius: 3px;
   background-color: #e6e6e6;
+  transition: background-color 0.2s ease-in-out;
   display: flex;
   gap: 2rem;
+
+  &:hover {
+    background-color: #d4d4d4;
+  }
 `;
 
 export const ThreadHeader = styled.header`

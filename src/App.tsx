@@ -12,7 +12,7 @@ const App = () => {
 
 	const userRoutes = [
 		<Route path="/home" component={Home} key="Home" />,
-		<Route path="/messages" component={Messages} key="Messages" />,
+		<Route path="/threads" exact component={Messages} key="Messages" />,
 		<Route path="/profile" component={Profile} key="Profile" />,
 	];
 

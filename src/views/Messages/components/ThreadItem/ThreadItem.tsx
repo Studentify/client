@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, Author, ThreadHeader, AuthorProfile, FromSpan, AuthorPersonalInfo, TimeSpan } from './ThreadItem-styles';
+import { Link, Author, ThreadHeader, AuthorProfile, FromSpan, AuthorPersonalInfo, TimeSpan } from './ThreadItem-styles';
 import PersonIcon from '@material-ui/icons/Person';
 import { Typography } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
@@ -8,11 +8,11 @@ import { ThreadItemProps } from './types';
 import { isDateToday } from 'utils/date';
 
 
-const ThreadItem: React.FC<ThreadItemProps> = ({ lp, date, content, author }) => {
+const ThreadItem: React.FC<ThreadItemProps> = ({ lp, date, content, author, threadId }) => {
   const isToday = isDateToday(date);
 
   return (
-    <Container>
+    <Link to={`/threads/${threadId}/messages`}>
       <AuthorProfile>
         <Avatar>
           <PersonIcon fontSize="large"/>
@@ -39,7 +39,7 @@ const ThreadItem: React.FC<ThreadItemProps> = ({ lp, date, content, author }) =>
         </ThreadHeader>
         <p>Message: {content.repeat(4)}</p>
       </div>
-    </Container>
+    </Link>
   )
 }
 
