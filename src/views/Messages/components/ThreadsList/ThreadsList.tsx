@@ -2,9 +2,9 @@ import React from 'react';
 import ThreadItem from '../ThreadItem';
 
 import { Container, List, ListTitle } from './ThreadsList-style';
-import { Typography } from '@material-ui/core';
 
 import { ThreadsListProps } from './types';
+
 
 const ThreadsList: React.FC<ThreadsListProps> = ({ title, threads }) => {
   return (
@@ -16,7 +16,7 @@ const ThreadsList: React.FC<ThreadsListProps> = ({ title, threads }) => {
         ))}
       </List>
     </Container>
-  )
+  );
 }
 
-export default ThreadsList
+export default ThreadsList;

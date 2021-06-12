@@ -1,6 +1,6 @@
-import { Message } from "views/Messages/types";
+import { MessagesThread } from "views/Messages/types";
 
 
-export interface ThreadItemProps extends Message {
+export interface ThreadItemProps extends MessagesThread {
   lp: number;
 }

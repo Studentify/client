@@ -2,7 +2,7 @@ export interface MessagesProps {
   
 }
 
-export interface Message {
+export interface MessagesThread {
   id: number;
   date: string;
   content: string;

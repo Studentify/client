@@ -3,10 +3,10 @@ import React from 'react';
 import { Wrapper } from './Messages-style';
 import { ThreadsList } from './components';
 
-import { MessagesProps, Message } from './types';
+import { MessagesThread } from './types';
 import { isDateToday } from 'utils/date';
 
-const messages: Message[] = [
+const messages: MessagesThread[] = [
   { id: 0, date: new Date().toISOString(), content: "Lorem ipsum sit dolor amet", threadId: 1, author: { firstName: "John", lastName: "Doe" }},
   { id: 1, date: new Date().toISOString(), content: "Lorem ipsum sit dolor amet", threadId: 1,  author: { firstName: "John", lastName: "Doe" }},
   { id: 2, date: new Date(2021, 1, 20).toISOString(), content: "Lorem ipsum sit dolor amet", threadId: 1,  author: { firstName: "John", lastName: "Doe" }},
@@ -17,7 +17,7 @@ const messages: Message[] = [
 ]
 
 
-const Messages: React.FC<MessagesProps> = () => {
+const MessagesView = () => {
   const todayMessages = messages.filter(message => isDateToday(message.date));
 
   const messagesFromPast = messages.filter(message => todayMessages.indexOf(message) === -1)
@@ -29,4 +29,4 @@ const Messages: React.FC<MessagesProps> = () => {
   )
 }
 
-export default Messages;
+export default MessagesView;
