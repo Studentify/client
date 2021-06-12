@@ -7,4 +7,8 @@ export interface Message {
   date: string;
   content: string;
   threadId: number;
+  author: {
+    firstName: string;
+    lastName: string;
+  };
 }
