@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Wrapper } from './Messages-style';
+import { Wrapper } from './ConversationThreads-style';
 import { ThreadsList } from './components';
 
 import { MessagesThread } from './types';

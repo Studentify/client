@@ -3,7 +3,7 @@ import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 import { Navigation } from "components";
-import { Home, Landing, Login, Messages, Profile, Register } from "views";
+import { Home, Landing, Login, ConversationThreads, ThreadMessages, Profile, Register } from "views";
 import { PageContent, PageWrapper } from "styles/ContentWrapper";
 import { GlobalStyles, Layout } from "./App.css";
 
@@ -12,7 +12,8 @@ const App = () => {
 
 	const userRoutes = [
 		<Route path="/home" component={Home} key="Home" />,
-		<Route path="/threads" exact component={Messages} key="Messages" />,
+		<Route path="/threads" exact component={ConversationThreads} key="Threads" />,
+		<Route path="/threads/:threadId/messages" component={ThreadMessages} key="Messages" />,
 		<Route path="/profile" component={Profile} key="Profile" />,
 	];
 
