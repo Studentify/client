@@ -16,8 +16,25 @@ export const Container = styled.div`
   overflow-y: auto;
 `;
 
-export const MessageItem = styled.li`
-  padding: 0.5rem;
-  border-radius: 10px;
-  background-color: #7fb2d4;
+export const MessagesList = styled.ul`
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+`;
+
+type MessageItemProps = {
+  isMine: boolean;
+}
+
+export const MessageItem = styled.li<MessageItemProps>`
+  word-wrap: break-word;
+  max-width: 800px;  
+  padding: 0.75rem 1.25rem;
+  border-radius: 20px;
+  background-color: ${({ isMine }) => isMine ? '#3f51b5' : '#d4d4d4'};
+  color: ${({ isMine }) => isMine ? 'white' : 'black'};
+  align-self: ${({ isMine }) => isMine ? 'flex-end' : 'flex-start'};
+  border-bottom-right-radius: ${({ isMine }) => isMine ? '5' : '20'}px;
+  border-bottom-left-radius: ${({ isMine }) => !isMine ? '5' : '20'}px;
 `;

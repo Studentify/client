@@ -1,19 +1,19 @@
 import React from 'react';
 
-import { Container, MessageItem } from './Conversation-style';
-
+import { Container, MessagesList, MessageItem } from './Conversation-style';
+import { Typography } from '@material-ui/core';
 import { Message } from '../../types';
 
 const Conversation = ({ messages = [] }: { messages?: Message[]}) => {
   return (
     <Container>
-      <ul>
+      <MessagesList>
         {messages.map(message => (
-          <MessageItem key={message.id}>
-            {message.content}
+          <MessageItem key={message.id} isMine={message.id === 1}>
+            <Typography component="p" variant="body2">{message.content}</Typography>
           </MessageItem>
         ))}
-      </ul>
+      </MessagesList>
     </Container>
   );
 }
