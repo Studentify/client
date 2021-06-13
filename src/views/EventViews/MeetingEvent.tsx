@@ -9,8 +9,10 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CategoryIcon from '@material-ui/icons/Category';
 import EventIcon from '@material-ui/icons/Event';
 import Button from '@material-ui/core/Button';
+import Modal from "@material-ui/core/Modal";
 
 import { ViewContainer, EventHeader, EventHeaderContent, EventControls, EventMeta, CloseButton } from './EventViews-style';
+import { MessageForm } from '../Home/components';
 
 import { stringifyEventAddress } from 'utils/event';
 
@@ -24,6 +26,7 @@ interface MeetingEvent extends StudentifyEvent {
 
 
 const MeetingEventView = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [meetingEvent, setInfoEvent] = useState<MeetingEvent>();
   const history = useHistory();
   const params = useParams<Params>();
@@ -78,9 +81,18 @@ const MeetingEventView = () => {
 
       <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Typography>
       <EventControls>
-        <Button variant="contained" color="primary">send message</Button>
+        <Button 
+          variant="contained" 
+          color="primary"
+          onClick={() => setIsModalOpen(true)}
+        >
+          send message
+        </Button>
         <Button variant="contained" color="primary">I'm interested</Button>
       </EventControls>
+      <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+				<MessageForm closeModal={() => setIsModalOpen(false)}/>
+			</Modal>
     </ViewContainer>
   )
 }
