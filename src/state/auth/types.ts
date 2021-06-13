@@ -16,14 +16,6 @@ export interface UserAttributes {
 	password: string;
 }
 
-export interface User {
-	id: string;
-	userName: string;
-	firstName: string;
-	lastName: string;
-	email: string;
-}
-
 export interface AuthState {
 	user?: User;
 	authToken?: string;

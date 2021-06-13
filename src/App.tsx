@@ -14,7 +14,7 @@ const App = () => {
 
 	const userRoutes = [
 		<Route path="/home" component={Home} key="Home" />,
-		<Route path="/profile" component={Profile} key="Profile" />,
+		<Route path="/profile/:userId" component={Profile} key="Profile" />,
 	];
 
 	const unauthorizedRoutes = [
@@ -29,11 +29,11 @@ const App = () => {
 			<Switch>
 				{isAuthentificated ? (
 					<PageWrapper>
-						<Navigation />
-						<PageContent>{userRoutes}</PageContent>
-						<Redirect strict exact from="/" to="/home" />
+						<Redirect exact from="/" to="/home" />
 						<Redirect strict from="/login" to="/home" />
 						<Redirect strict from="/register" to="/home" />
+						<Navigation />
+						<PageContent>{userRoutes}</PageContent>
 					</PageWrapper>
 				) : (
 					<div>{unauthorizedRoutes}</div>

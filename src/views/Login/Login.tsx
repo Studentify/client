@@ -1,10 +1,8 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { Redirect } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { StoreState } from "state/rootReducer";
 import { login } from "state/auth/actions";
 import { FormikField } from "components/FormikField";
 import { ContentWrapper } from "styles/ContentWrapper";
@@ -28,12 +26,9 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login: React.FC = () => {
-	const isAuthentificated = useSelector((state: StoreState) => state.auth.isAuthentificated);
-
 	const dispatch = useDispatch();
 
 	const handleSubmit = (values: FormValues): void => {
-		alert(JSON.stringify(values));
 		dispatch(login(values.username, values.password));
 	};
 
@@ -66,7 +61,6 @@ const Login: React.FC = () => {
 					New to Studentify? <Link to="/register">Register!</Link>
 				</h3>
 			</ContentWrapper>
-			{isAuthentificated ? <Redirect to="/home" /> : null}
 		</>
 	);
 };

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import MenuIcon from "@material-ui/icons/Menu";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
+import { StoreState } from "state/rootReducer";
 import { logout } from "state/auth/actions";
 
 import { CustomLink, LogoutLink, Nav, NavList, StyledMenuIcon } from "./Navigation-styles";
@@ -9,10 +10,11 @@ import { CustomLink, LogoutLink, Nav, NavList, StyledMenuIcon } from "./Navigati
 const Navigation: React.FC = () => {
 	const dispatch = useDispatch();
 	const [isOpen, setIsOpen] = useState(false);
+	const user = useSelector((state: StoreState) => state.auth.user);
 
 	return (
 		<Nav>
-			<CustomLink to="/" onClick={() => setIsOpen(!isOpen)}>
+			<CustomLink to="/home" onClick={() => setIsOpen(!isOpen)}>
 				<h1>Studentify</h1>
 			</CustomLink>
 
@@ -23,12 +25,15 @@ const Navigation: React.FC = () => {
 
 				<NavList open={isOpen}>
 					<li>
-						<CustomLink to="/friends" onClick={() => setIsOpen(!isOpen)}>
+						<CustomLink to="/messages" onClick={() => setIsOpen(!isOpen)}>
 							Messages
 						</CustomLink>
 					</li>
 					<li>
-						<CustomLink to="/profile" onClick={() => setIsOpen(!isOpen)}>
+						<CustomLink
+							to={user ? `/profile/${user.id}` : "/home"}
+							onClick={() => setIsOpen(!isOpen)}
+						>
 							Profile
 						</CustomLink>
 					</li>
