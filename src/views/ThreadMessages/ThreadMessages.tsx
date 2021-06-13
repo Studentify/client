@@ -13,20 +13,32 @@ import { Box, Button } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import { Message } from './types';
+import { ConversationThread } from 'views/ConversationThreads/types';
 
 
 const ThreadMessages = () => {
   const { threadId } = useParams<{ threadId: string }>();
   const [messages, setMessages] = useState<Message[]>([]);
+  const [thread, setThread] = useState<ConversationThread>();
   const history = useHistory();
 
   useEffect(() => {
     fetchMessages(threadId);
+    fetchThreadDetails(threadId);
 
     async function fetchMessages(threadId: string) {
       try {
         const res = await axios.get<Message[]>(`/Threads/${threadId}/Messages`);
         setMessages(res.data);
+      } catch(err) {
+        console.log(err);
+      }
+    }
+
+    async function fetchThreadDetails(threadId: string) {
+      try {
+        const res = await axios.get<ConversationThread>(`/Threads/${threadId}`);
+        setThread(res.data);
       } catch(err) {
         console.log(err);
       }
@@ -57,7 +69,7 @@ const ThreadMessages = () => {
           </Button>
         </Box>
         <UserProfile />
-        <EventInfo />
+        <EventInfo event={thread?.referencedEvent}/>
       </Header>
       <Conversation messages={messages}/>
       <SendMessageForm onSendMessage={sendMessage}/>
