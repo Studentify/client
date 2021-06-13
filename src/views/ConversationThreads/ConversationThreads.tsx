@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'api/axiosInstance';
 
-import { Wrapper } from './Messages-style';
+import { Wrapper } from './ConversationThreads-style';
 import { ThreadsList } from './components';
 
 import { MessagesThread } from './types';
@@ -18,15 +19,31 @@ const messages: MessagesThread[] = [
 
 
 const MessagesView = () => {
-  const todayMessages = messages.filter(message => isDateToday(message.date));
+  const [messagesThreads, setMessagesThreads] = useState<MessagesThread[]>([]);
 
-  const messagesFromPast = messages.filter(message => todayMessages.indexOf(message) === -1)
+  useEffect(() => {
+    fetchThreads();
+
+    async function fetchThreads() {
+      try {
+        const res = await axios.get<MessagesThread[]>('/Threads');
+        console.log(res.data);
+
+      } catch(err) {
+        console.log(err);
+      }
+    }
+  }, [setMessagesThreads])
+
+  const todayMessages = messages.filter(message => isDateToday(message.date));
+  const messagesFromPast = messages.filter(message => todayMessages.indexOf(message) === -1);
+
   return (
     <Wrapper>
       <ThreadsList title="Todays messages:" threads={todayMessages}/>
       <ThreadsList title="History:" threads={messagesFromPast}/>
     </Wrapper>
-  )
+  );
 }
 
 export default MessagesView;
