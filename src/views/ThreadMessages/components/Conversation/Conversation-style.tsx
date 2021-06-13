@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   flex: 1;
-  max-height: 65vh;
+  /* max-height: 65vh; */
   
   padding: 1rem;
   background-color: white;
