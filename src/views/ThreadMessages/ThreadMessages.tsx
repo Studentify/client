@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import axios from 'api/axiosInstance';
 
 import { Wrapper, Header } from './ThreadMessages-style';
@@ -18,6 +18,7 @@ import { Message } from './types';
 const ThreadMessages = () => {
   const { threadId } = useParams<{ threadId: string }>();
   const [messages, setMessages] = useState<Message[]>([]);
+  const history = useHistory();
 
   useEffect(() => {
     fetchMessages(threadId);
@@ -50,6 +51,7 @@ const ThreadMessages = () => {
             color="primary"
             type="submit"
             startIcon={<ArrowBackIosIcon />}
+            onClick={() => history.goBack()}
           >
             back
           </Button>
