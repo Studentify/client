@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   min-height: calc(100vh - 70px);
+  max-height: calc(100vh - 70px);
   padding: 2rem;
   margin-top: 70px;
 
@@ -15,7 +16,7 @@ export const Wrapper = styled.div`
 
 export const Header = styled.header`
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   padding: 1rem;
   background-color: white;
 
