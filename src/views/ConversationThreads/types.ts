@@ -2,13 +2,16 @@ export interface MessagesProps {
   
 }
 
-export interface MessagesThread {
-  id: number;
-  date: string;
-  content: string;
-  threadId: number;
-  author: {
-    firstName: string;
-    lastName: string;
-  };
+export interface ConversationThread {
+  id: 5;
+  lastMessage: {
+    id: number;
+    threadId: number;
+    author: studentifyAccount;
+    content: string;
+    date: string;
+    isViewed: boolean;
+  }
+  referencedEvent: StudentifyEvent;
+  userAccount: studentifyAccount;
 }
