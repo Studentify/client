@@ -67,9 +67,6 @@ const Home: React.FC = () => {
 			<ColumnView>
 				<EventMap events={events}/>
 			</ColumnView>
-			<Modal open={isFiltersModalOpen} onClose={closeFiltersModal}>
-				<div>Filter form</div>
-			</Modal>
 			<Modal open={isEventModalOpen} onClose={closeEventModal}>
 				<AddEventForm onAddEvent={addEvent} closeModal={closeEventModal}/>
 			</Modal>

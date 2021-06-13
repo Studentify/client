@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Formik, Field } from 'formik';
 import * as yup from "yup";
-// import axios from 'api/axiosInstance';
+import axios from 'api/axiosInstance';
 
 import { FormWrapper, Form, Controls, ErrorMessage } from './MessageForm-style';
 import { Typography, Button, TextField } from "@material-ui/core";
@@ -25,11 +25,13 @@ const MessageForm = React.forwardRef<HTMLElement, MessageFormProps>(({ closeModa
     content: ""
   }
 
-  const handleSendMessage = async (values: any) => {
-    console.log({ values, id});
+  const handleSendMessage = async ({ content }: { content: string }) => {
+    console.log({ content, id});
 
     try {
-      // const res = await axios.post('/Messages', { ...values, threadId: id});
+      const { id: threadId } = (await axios.post<{ id: number }>(`/Threads?eventId=${id}`)).data;
+      await axios.post('/Messages', { threadId, content: content });
+      closeModal();
     } catch(err) {
       console.log(err);
     }
