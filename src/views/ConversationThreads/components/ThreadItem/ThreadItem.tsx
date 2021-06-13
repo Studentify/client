@@ -9,7 +9,8 @@ import { ThreadItemProps } from './types';
 import { isDateToday } from 'utils/date';
 
 
-const ThreadItem: React.FC<ThreadItemProps> = ({ lp, date, content, author, threadId }) => {
+const ThreadItem: React.FC<ThreadItemProps> = ({ lp, ...thread }) => {
+  const { date, content, author, threadId } = thread.lastMessage;
   const isToday = isDateToday(date);
 
   return (

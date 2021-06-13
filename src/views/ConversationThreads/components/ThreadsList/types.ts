@@ -1,6 +1,6 @@
-import { MessagesThread } from "views/ConversationThreads/types";
+import { ConversationThread } from "views/ConversationThreads/types";
 
 export interface ThreadsListProps {
   title: string;
-  threads: MessagesThread[];
+  threads: ConversationThread[];
 }

@@ -6,6 +6,7 @@ import { Message } from '../../types';
 
 const Conversation = ({ messages = [] }: { messages?: Message[]}) => {
   const messagesListRef = useRef<HTMLLIElement>(null);
+  const myId = 2
 
   useEffect(() => {
     if (messagesListRef.current) {
@@ -17,7 +18,7 @@ const Conversation = ({ messages = [] }: { messages?: Message[]}) => {
     <Container>
       <MessagesList>
         {messages.map(message => (
-          <MessageItem key={message.id} isMine={message.authorId === 2}>
+          <MessageItem key={message.id} isMine={message.author.id === myId}>
             <Typography component="p" variant="body2">{message.content}</Typography>
           </MessageItem>
         ))}

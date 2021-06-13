@@ -1,6 +1,6 @@
-import { MessagesThread } from "views/ConversationThreads/types";
+import { ConversationThread } from "views/ConversationThreads/types";
 
 
-export interface ThreadItemProps extends MessagesThread {
+export interface ThreadItemProps extends ConversationThread {
   lp: number;
 }

@@ -11,8 +11,8 @@ const ThreadsList: React.FC<ThreadsListProps> = ({ title, threads }) => {
     <Container>
       <ListTitle variant="h4" gutterBottom>{title}</ListTitle>
       <List>
-        {threads.map((message, idx) => (
-          <ThreadItem key={message.id} lp={idx} {...message} />
+        {threads.map((thread, idx) => (
+          <ThreadItem key={thread.id} lp={idx} {...thread} />
         ))}
       </List>
     </Container>

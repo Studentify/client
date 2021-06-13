@@ -14,17 +14,10 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import { Message } from './types';
 
-const messag = [
-  { id: 0, content: "Hello there, I have a question about the event", date: new Date().toISOString(), authorId: 1 },
-  { id: 1, content: "Hi, how can I help you?", date: new Date().toISOString(), authorId: 2 },
-  { id: 2, content: "Ziobro TY KURWO JEBANA", date: new Date().toISOString(), authorId: 1 },
-  { id: 3, content: "Ah shit, here we go again...", date: new Date().toISOString(), authorId: 2 },
-]
-
 
 const ThreadMessages = () => {
   const { threadId } = useParams<{ threadId: string }>();
-  const [messages, setMessages] = useState(messag);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
     fetchMessages(threadId);
@@ -32,23 +25,20 @@ const ThreadMessages = () => {
     async function fetchMessages(threadId: string) {
       try {
         const res = await axios.get<Message[]>(`/Threads/${threadId}/Messages`);
-        // setMessages(res.data);
+        setMessages(res.data);
       } catch(err) {
         console.log(err);
-        // setMessages([]);
       }
     }
   }, [threadId, setMessages]);
 
-  const sendMessage = (message: string) => {
-    const newMessage = {
-      id: Math.floor(Math.random()*100000), 
-      content: message,
-      date: new Date().toISOString(), 
-      authorId: 1
-    };
-
-    setMessages([...messages, newMessage]);
+  const sendMessage = async (message: string) => {
+    try {
+      const res = await axios.post<Message>('/Threads/Messages', { threadId, content: message });
+      setMessages(prev => [...prev, res.data]);
+    } catch(err) {
+      console.log(err);
+    }
   }
 
   return (
