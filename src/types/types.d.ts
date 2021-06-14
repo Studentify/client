@@ -1,11 +1,11 @@
 interface StudentifyEvent {
-  id: number;
+	id: number;
 	eventType: string;
 	name: string;
 	creationDate: string;
 	expiryDate: string;
 	description: string;
-	studentifyAccountId: number;
+	authorId: number;
 	location: {
 		coordinates: {
 			longitude: number;
@@ -18,5 +18,18 @@ interface StudentifyEvent {
 			street?: string;
 			houseNumber?: string;
 		};
-	}
+	};
+}
+interface User {
+	id: number;
+	userName: string;
+	firstName: string;
+	lastName: string;
+	email: string;
+}
+interface Skill {
+	id: number;
+	name: string;
+	rate: number;
+	ownerId: number;
 }

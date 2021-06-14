@@ -1,20 +1,22 @@
 import React from "react";
 
 import { Switch, Route, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 
+import { StoreState } from "state/rootReducer";
 import { Navigation } from "components";
 import { Home, Landing, Login, ConversationThreads, ThreadMessages, Profile, Register } from "views";
 import { PageContent, PageWrapper } from "styles/ContentWrapper";
 import { GlobalStyles, Layout } from "./App.css";
 
 const App = () => {
-	const auth = true;
+	const isAuthentificated = useSelector((state: StoreState) => state.auth.isAuthentificated);
 
 	const userRoutes = [
 		<Route path="/home" component={Home} key="Home" />,
+		<Route path="/profile/:userId" component={Profile} key="Profile" />,
 		<Route path="/threads" exact component={ConversationThreads} key="Threads" />,
 		<Route path="/threads/:threadId/messages" component={ThreadMessages} key="Messages" />,
-		<Route path="/profile" component={Profile} key="Profile" />,
 	];
 
 	const unauthorizedRoutes = [
@@ -27,13 +29,13 @@ const App = () => {
 		<Layout>
 			<GlobalStyles />
 			<Switch>
-				{auth ? (
+				{isAuthentificated ? (
 					<PageWrapper>
+						<Redirect exact from="/" to="/home" />
+						<Redirect strict from="/login" to="/home" />
+						<Redirect strict from="/register" to="/home" />
 						<Navigation />
 						<PageContent>{userRoutes}</PageContent>
-						<Route strict exact path="/">
-							<Redirect to="/home" />
-						</Route>
 					</PageWrapper>
 				) : (
 					<div>{unauthorizedRoutes}</div>

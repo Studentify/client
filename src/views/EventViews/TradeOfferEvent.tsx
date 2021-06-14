@@ -17,12 +17,12 @@ import { MessageForm } from '../Home/components';
 import { stringifyEventAddress } from 'utils/event';
 
 interface Params {
-  id: string;
+	id: string;
 }
 
 interface TradeOfferEvent extends StudentifyEvent {
-  price: string;
-  offer: string;
+	price: string;
+	offer: string;
 }
 
 
@@ -40,7 +40,7 @@ const TradeOfferEventView = () => {
 			try {
 				const res = await axios.get<TradeOfferEvent>(`/TradeOffers/${eventId}`);
 				setTradeOfferEvent(res.data);
-			} catch(err) {
+			} catch (err) {
 				console.log(err);
 			}
 		}
@@ -99,7 +99,7 @@ const TradeOfferEventView = () => {
 				<MessageForm closeModal={() => setIsModalOpen(false)}/>
 			</Modal>
     </ViewContainer>
-  )
+  );
 }
 
 export default TradeOfferEventView;

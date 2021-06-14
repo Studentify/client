@@ -16,12 +16,10 @@ import { MessageForm } from '../Home/components';
 import { stringifyEventAddress } from 'utils/event';
 
 interface Params {
-  id: string;
+	id: string;
 }
 
-interface InfoEvent extends StudentifyEvent {
-  
-}
+interface InfoEvent extends StudentifyEvent {}
 
 
 const InfoEventView = () => {
@@ -38,7 +36,7 @@ const InfoEventView = () => {
 			try {
 				const res = await axios.get<InfoEvent>(`/Info/${eventId}`);
 				setInfoEvent(res.data);
-			} catch(err) {
+			} catch (err) {
 				console.log(err);
 			}
 		}
