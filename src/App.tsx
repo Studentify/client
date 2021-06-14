@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 import { StoreState } from "state/rootReducer";
 import { Navigation } from "components";
-import { Home, Landing, Login, Profile, Register } from "views";
+import { Home, Landing, Login, ConversationThreads, ThreadMessages, Profile, Register } from "views";
 import { PageContent, PageWrapper } from "styles/ContentWrapper";
 import { GlobalStyles, Layout } from "./App.css";
 
@@ -15,6 +15,8 @@ const App = () => {
 	const userRoutes = [
 		<Route path="/home" component={Home} key="Home" />,
 		<Route path="/profile/:userId" component={Profile} key="Profile" />,
+		<Route path="/threads" exact component={ConversationThreads} key="Threads" />,
+		<Route path="/threads/:threadId/messages" component={ThreadMessages} key="Messages" />,
 	];
 
 	const unauthorizedRoutes = [

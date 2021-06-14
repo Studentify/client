@@ -25,7 +25,7 @@ const Navigation: React.FC = () => {
 
 				<NavList open={isOpen}>
 					<li>
-						<CustomLink to="/messages" onClick={() => setIsOpen(!isOpen)}>
+						<CustomLink to="/threads" onClick={() => setIsOpen(!isOpen)}>
 							Messages
 						</CustomLink>
 					</li>
