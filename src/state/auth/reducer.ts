@@ -1,11 +1,10 @@
 import { AuthState, AuthAction } from "./types";
-import axios from "api/axiosInstance";
 import { USER_REGISTER_SUCCESS, USER_LOGIN_SUCCESS, USER_UPDATE, USER_LOGOUT } from "./types";
 
 const initialAuthState: AuthState = {
 	isAuthentificated: !!getAuthTokenFromLocalStorage(),
 	authToken: getAuthTokenFromLocalStorage(),
-	user: undefined,
+	user: getUserFromLocalStorage(),
 };
 
 function authReducer(state = initialAuthState, action: AuthAction): AuthState {
@@ -13,7 +12,7 @@ function authReducer(state = initialAuthState, action: AuthAction): AuthState {
 		case USER_REGISTER_SUCCESS: {
 			const { user, authToken } = action.payload;
 			saveAuthTokenInLocalStorage(authToken);
-			saveUserIdInLocalStorage(user.id);
+			saveUserInLocalStorage(user);
 
 			return {
 				...state,
@@ -25,6 +24,7 @@ function authReducer(state = initialAuthState, action: AuthAction): AuthState {
 		case USER_LOGIN_SUCCESS: {
 			const { user, authToken } = action.payload;
 			saveAuthTokenInLocalStorage(authToken);
+			saveUserInLocalStorage(user);
 
 			return {
 				...state,
@@ -67,20 +67,16 @@ function getAuthTokenFromLocalStorage(): string | undefined {
 	return token || undefined;
 }
 
-// ????????? async init
-async function getUserFromLocalStorage(): Promise<User | undefined> {
-	const id = localStorage.getItem("id");
-	if (id) {
-		const { data } = await axios.get<User>(`/StudentifyAccounts/${id}`);
-		return data;
-	}
-	return undefined;
+function getUserFromLocalStorage(): User | undefined {
+	const user = localStorage.getItem("user");
+	const parsedUser = user ? JSON.parse(user) : undefined;
+	return parsedUser;
 }
 
 function saveAuthTokenInLocalStorage(token: string): void {
 	return localStorage.setItem("token", token);
 }
 
-function saveUserIdInLocalStorage(id: number): void {
-	return localStorage.setItem("id", id.toString());
+function saveUserInLocalStorage(userData: User): void {
+	return localStorage.setItem("user", JSON.stringify(userData));
 }
