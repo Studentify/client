@@ -8,6 +8,7 @@ import {
 	USER_REGISTER_FAILURE,
 	USER_LOGIN_SUCCESS,
 	USER_LOGIN_FAILURE,
+	USER_UPDATE,
 	USER_LOGOUT,
 } from "./types";
 
@@ -53,6 +54,15 @@ export const login = (username: string, password: string) => async (
 			},
 		});
 	}
+};
+
+export const updateUser = (userData: User): AuthAction => {
+	return {
+		type: USER_UPDATE,
+		payload: {
+			user: userData,
+		},
+	};
 };
 
 export const logout = (): AuthAction => {

@@ -6,6 +6,8 @@ export const USER_LOGIN_REQUEST = "USER_LOGIN_REQUEST";
 export const USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
 export const USER_LOGIN_FAILURE = "USER_LOGIN_FAILURE";
 
+export const USER_UPDATE = "USER_UPDATE";
+
 export const USER_LOGOUT = "USER_LOGOUT";
 
 export interface UserAttributes {
@@ -52,6 +54,12 @@ interface UserLoginFailure {
 	};
 }
 
+interface UserUpdate {
+	type: typeof USER_UPDATE;
+	payload: {
+		user: User;
+	};
+}
 interface UserLogout {
 	type: typeof USER_LOGOUT;
 	payload: null;
@@ -62,4 +70,5 @@ export type AuthAction =
 	| UserRegisterFailure
 	| UserLoginSuccess
 	| UserLoginFailure
+	| UserUpdate
 	| UserLogout;

@@ -7,5 +7,5 @@ interface SkillElementProps {
 }
 
 export const SkillElement: React.FC<SkillElementProps> = ({ skillData }) => {
-	return <SkillElementWrapper key={skillData.id}>{skillData.name}</SkillElementWrapper>;
+	return <SkillElementWrapper>{skillData.name}</SkillElementWrapper>;
 };

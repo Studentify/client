@@ -20,7 +20,6 @@ interface StudentifyEvent {
 		};
 	};
 }
-
 interface User {
 	id: number;
 	userName: string;

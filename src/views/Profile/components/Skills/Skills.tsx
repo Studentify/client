@@ -37,7 +37,7 @@ const Skills: React.FC<SkillsProps> = ({ userId, isAccountOwner }) => {
 
 				<List>
 					{skills.map((skill) => (
-						<SkillElement skillData={skill} />
+						<SkillElement skillData={skill} key={skill.id} />
 					))}
 				</List>
 			</div>
