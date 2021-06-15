@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Fab from '@material-ui/core/Fab';
 import { Typography, Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 
 export const ViewContainer = styled.div`
@@ -66,6 +67,17 @@ export const EventButton = styled(Button)<{ eventType: string }>`
     &:active, &:hover {
       background-color: ${({ eventType }) => getEventColorByEventType(eventType)};
     }
+  }
+`;
+
+export const ProfileLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translate(10px);
   }
 `;
 

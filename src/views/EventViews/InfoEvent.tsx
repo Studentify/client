@@ -3,16 +3,25 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'hooks/redux';
 import axios from 'api/axiosInstance';
 
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import CategoryIcon from '@material-ui/icons/Category';
-import EventIcon from '@material-ui/icons/Event';
-import Button from '@material-ui/core/Button';
-import Modal from "@material-ui/core/Modal";
-
-import { ViewContainer, EventHeader, EventHeaderContent, EventControls, EventMeta, CloseButton } from './EventViews-style';
+import { Typography, Button, Modal } from '@material-ui/core';
 import { MessageForm } from '../Home/components';
+import { 
+  ViewContainer, 
+  EventHeader, 
+  EventHeaderContent, 
+  EventControls, 
+  EventMeta, 
+  CloseButton,
+  ProfileLink,
+} from './EventViews-style';
+
+import {  
+  Close,
+  LocationOn,
+  Category,
+  Event,
+  Person,
+} from '@material-ui/icons';
 
 import { stringifyEventAddress } from 'utils/event';
 
@@ -54,18 +63,22 @@ const InfoEventView = () => {
       <EventHeader eventType={infoEvent?.eventType as string}>
         <EventHeaderContent>
           <CloseButton size="small" color="secondary" onClick={backToList}>
-            <CloseIcon fontSize="small"/>
+            <Close fontSize="small"/>
           </CloseButton>
           <Typography variant="h4">{infoEvent?.name}</Typography>
-
           <EventMeta>
-            <CategoryIcon /> {infoEvent?.eventType}
+            <Category /> {infoEvent?.eventType}
           </EventMeta>
           <EventMeta>
-            <EventIcon /> {infoEvent?.expiryDate.substring(0, 10)}
+            <Event /> {infoEvent?.expiryDate.substring(0, 10)}
           </EventMeta>
+          <ProfileLink to={`/profile/${infoEvent?.authorId}`}>
+            <EventMeta>
+              <Person /> {infoEvent?.author.firstName} {infoEvent?.author.lastName}
+            </EventMeta>
+          </ProfileLink>
           <EventMeta>
-            <LocationOnIcon /> {infoEvent ? stringifyEventAddress(infoEvent) : null}
+            <LocationOn /> {infoEvent ? stringifyEventAddress(infoEvent) : null}
           </EventMeta>
         </EventHeaderContent>
       </EventHeader>

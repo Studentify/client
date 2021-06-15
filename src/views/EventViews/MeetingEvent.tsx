@@ -3,16 +3,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'hooks/redux';
 import axios from 'api/axiosInstance';
 
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import GroupIcon from '@material-ui/icons/Group';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import CategoryIcon from '@material-ui/icons/Category';
-import SendIcon from '@material-ui/icons/Send';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import EventIcon from '@material-ui/icons/Event';
-import Modal from "@material-ui/core/Modal";
-
+import { MessageForm } from '../Home/components';
+import { Typography, Modal } from '@material-ui/core';
 import { 
   ViewContainer, 
   EventHeader, 
@@ -20,9 +12,20 @@ import {
   EventControls, 
   EventMeta, 
   CloseButton, 
-  EventButton 
+  EventButton,
+  ProfileLink,
 } from './EventViews-style';
-import { MessageForm } from '../Home/components';
+
+import {  
+  Close,
+  LocationOn,
+  Category,
+  Event,
+  Person,
+  Send,
+  Group,
+  ThumbUp,
+} from '@material-ui/icons';
 
 import { stringifyEventAddress } from 'utils/event';
 
@@ -98,21 +101,25 @@ const MeetingEventView = () => {
       <EventHeader eventType={meetingEvent?.eventType as string}>
         <EventHeaderContent>
           <CloseButton size="small" color="secondary" onClick={backToList}>
-            <CloseIcon fontSize="small"/>
+            <Close fontSize="small"/>
           </CloseButton>
           <Typography variant="h4">{meetingEvent?.name}</Typography>
-
           <EventMeta>
-            <CategoryIcon /> {meetingEvent?.eventType}
+            <Category /> {meetingEvent?.eventType}
           </EventMeta>
           <EventMeta>
-            <EventIcon /> {meetingEvent?.expiryDate.substring(0, 10)}
+            <Event /> {meetingEvent?.expiryDate.substring(0, 10)}
+          </EventMeta>
+          <ProfileLink to={`/profile/${meetingEvent?.authorId}`}>
+            <EventMeta>
+              <Person /> {meetingEvent?.author.firstName} {meetingEvent?.author.lastName}
+            </EventMeta>
+          </ProfileLink>
+          <EventMeta>
+            <LocationOn /> {meetingEvent ? stringifyEventAddress(meetingEvent) : null}
           </EventMeta>
           <EventMeta>
-            <LocationOnIcon /> {meetingEvent ? stringifyEventAddress(meetingEvent) : null}
-          </EventMeta>
-          <EventMeta>
-            <GroupIcon /> 
+            <Group /> 
             {`Participants: ${meetingEvent?.participants.length}/${meetingEvent?.maxNumberOfParticipants}`}
           </EventMeta>
         </EventHeaderContent>
@@ -130,7 +137,7 @@ const MeetingEventView = () => {
           variant="contained" 
           color="primary"
           disabled={me?.id === meetingEvent?.authorId}
-          endIcon={<SendIcon />}
+          endIcon={<Send />}
           eventType={meetingEvent?.eventType as string}
           onClick={() => setIsModalOpen(true)}
         >
@@ -138,7 +145,7 @@ const MeetingEventView = () => {
         </EventButton>
         <EventButton 
           variant="contained" 
-          endIcon={<ThumbUpIcon />}
+          endIcon={<ThumbUp />}
           eventType={meetingEvent?.eventType as string}
           disabled={isAttendaceDeclarationDisabled}
           onClick={handleDeclareAttendance}

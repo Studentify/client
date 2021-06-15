@@ -3,14 +3,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'hooks/redux';
 import axios from 'api/axiosInstance';
 
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import CategoryIcon from '@material-ui/icons/Category';
-import EventIcon from '@material-ui/icons/Event';
-import Button from '@material-ui/core/Button';
-import Modal from "@material-ui/core/Modal";
-
+import { MessageForm } from '../Home/components';
+import { Typography, Modal } from '@material-ui/core';
 import { 
   ViewContainer, 
   EventHeader, 
@@ -19,10 +13,18 @@ import {
   EventControls, 
   EventMeta, 
   CloseButton,
-  EventButton
+  EventButton,
+  ProfileLink,
 } from './EventViews-style';
 
-import { MessageForm } from '../Home/components';
+import {  
+  Close,
+  LocationOn,
+  Category,
+  Event,
+  Person,
+  Send,
+} from '@material-ui/icons';
 
 import { stringifyEventAddress } from 'utils/event';
 
@@ -67,18 +69,22 @@ const TradeOfferEventView = () => {
       <EventHeader eventType={tradeOfferEvent?.eventType as string}>
         <EventHeaderContent>
           <CloseButton size="small" color="secondary" onClick={backToList}>
-            <CloseIcon fontSize="small"/>
+            <Close fontSize="small"/>
           </CloseButton>
           <Typography variant="h4">{tradeOfferEvent?.name}</Typography>
-
           <EventMeta>
-            <CategoryIcon /> {tradeOfferEvent?.eventType}
+            <Category /> {tradeOfferEvent?.eventType}
           </EventMeta>
           <EventMeta>
-            <EventIcon /> {tradeOfferEvent?.expiryDate.substring(0, 10)}
+            <Event /> {tradeOfferEvent?.expiryDate.substring(0, 10)}
           </EventMeta>
+          <ProfileLink to={`/profile/${tradeOfferEvent?.authorId}`}>
+            <EventMeta>
+              <Person /> {tradeOfferEvent?.author.firstName} {tradeOfferEvent?.author.lastName}
+            </EventMeta>
+          </ProfileLink>
           <EventMeta>
-            <LocationOnIcon /> {tradeOfferEvent ? stringifyEventAddress(tradeOfferEvent) : null}
+            <LocationOn /> {tradeOfferEvent ? stringifyEventAddress(tradeOfferEvent) : null}
           </EventMeta>
         </EventHeaderContent>
       </EventHeader>
@@ -101,6 +107,7 @@ const TradeOfferEventView = () => {
         <EventButton 
           variant="contained" 
           color="primary"
+          endIcon={<Send />}
           disabled={me?.id === tradeOfferEvent?.authorId}
           eventType={tradeOfferEvent?.eventType as string}
           onClick={() => setIsModalOpen(true)}
