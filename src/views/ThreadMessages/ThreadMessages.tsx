@@ -14,7 +14,8 @@ import { Box, Button } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import { Message } from './types';
-import { ConversationThread } from 'views/ConversationThreads/types';
+
+import { deduceInterlocutor } from 'utils/threads';
 
 
 const ThreadMessages = () => {
@@ -24,7 +25,7 @@ const ThreadMessages = () => {
   const me = useSelector(state => state.auth.user);
   const history = useHistory();
 
-  const interlocutor = deduceInterlocutor();
+  const interlocutor = deduceInterlocutor(me, thread);
 
   useEffect(() => {
     fetchMessages(threadId);
@@ -56,18 +57,6 @@ const ThreadMessages = () => {
     } catch(err) {
       console.log(err);
     }
-  }
-  
-  function deduceInterlocutor() {
-    if (!me || !thread) {
-      return undefined;
-    }
-
-    return (
-      me?.id === thread?.referencedEvent.authorId 
-        ? thread?.userAccount
-        : thread?.referencedEvent.author
-    );
   }
 
   return (

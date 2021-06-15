@@ -9,8 +9,8 @@ import { ThreadItemProps } from './types';
 import { isDateToday } from 'utils/date';
 
 
-const ThreadItem: React.FC<ThreadItemProps> = ({ lp, ...thread }) => {
-  const { date, content, author, threadId } = thread.lastMessage;
+const ThreadItem: React.FC<ThreadItemProps> = ({ lp, interlocutor, thread }) => {
+  const { date, content, threadId } = thread.lastMessage;
   const isToday = isDateToday(date);
 
   return (
@@ -20,8 +20,8 @@ const ThreadItem: React.FC<ThreadItemProps> = ({ lp, ...thread }) => {
           <PersonIcon fontSize="large"/>
         </Avatar>
         <AuthorPersonalInfo>
-          <FromSpan>From:</FromSpan>
-          <Author>{author.firstName} {author.lastName}</Author>
+          <FromSpan>User:</FromSpan>
+          <Author>{interlocutor?.firstName} {interlocutor?.lastName}</Author>
         </AuthorPersonalInfo>
       </AuthorProfile>
       <div style={{ flex: 1 }}>
@@ -34,7 +34,9 @@ const ThreadItem: React.FC<ThreadItemProps> = ({ lp, ...thread }) => {
           {(date.substring(11, 16))}
           </TimeSpan>
         </ThreadHeader>
-        <Typography>Message: {content.repeat(4)}</Typography>
+        <Typography>
+          Message: {content}
+        </Typography>
       </div>
     </Link>
   )

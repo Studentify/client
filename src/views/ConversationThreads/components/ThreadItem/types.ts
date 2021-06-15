@@ -1,6 +1,5 @@
-import { ConversationThread } from "views/ConversationThreads/types";
-
-
-export interface ThreadItemProps extends ConversationThread {
+export interface ThreadItemProps {
   lp: number;
+  interlocutor?: StudentifyAccount;
+  thread: ConversationThread;
 }

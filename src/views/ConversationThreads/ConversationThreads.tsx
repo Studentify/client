@@ -4,7 +4,6 @@ import axios from 'api/axiosInstance';
 import { Wrapper } from './ConversationThreads-style';
 import { ThreadsList } from './components';
 
-import { ConversationThread } from './types';
 import { isDateToday } from 'utils/date';
 
 

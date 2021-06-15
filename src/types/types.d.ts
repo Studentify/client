@@ -43,3 +43,17 @@ interface Skill {
 	rate: number;
 	ownerId: number;
 }
+
+interface ConversationThread {
+  id: number;
+  lastMessage: {
+    id: number;
+    threadId: number;
+    author: StudentifyAccount;
+    content: string;
+    date: string;
+    isViewed: boolean;
+  }
+  referencedEvent: StudentifyEvent;
+  userAccount: StudentifyAccount;
+}
