@@ -1,7 +1,7 @@
 export interface Message {
   id: number;
   threadId: number
-  author: studentifyAccount;
+  author: StudentifyAccount;
   content: string;
   date: string;
   isViewed: boolean;

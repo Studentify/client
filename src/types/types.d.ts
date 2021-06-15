@@ -21,7 +21,7 @@ interface StudentifyEvent {
 	}
 }
 
-interface studentifyAccount {
+interface StudentifyAccount {
 	id: number;
 	email: string;
 	firstName: string;

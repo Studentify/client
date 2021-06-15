@@ -7,11 +7,11 @@ export interface ConversationThread {
   lastMessage: {
     id: number;
     threadId: number;
-    author: studentifyAccount;
+    author: StudentifyAccount;
     content: string;
     date: string;
     isViewed: boolean;
   }
   referencedEvent: StudentifyEvent;
-  userAccount: studentifyAccount;
+  userAccount: StudentifyAccount;
 }
