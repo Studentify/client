@@ -15,6 +15,7 @@ import {
   CloseButton,
   EventButton,
   ProfileLink,
+  ElevatedBox,
 } from './EventViews-style';
 
 import {  
@@ -66,43 +67,54 @@ const TradeOfferEventView = () => {
 
   return (
     <ViewContainer>
-      <EventHeader eventType={tradeOfferEvent?.eventType as string}>
-        <EventHeaderContent>
-          <CloseButton size="small" color="secondary" onClick={backToList}>
-            <Close fontSize="small"/>
-          </CloseButton>
-          <Typography variant="h4">{tradeOfferEvent?.name}</Typography>
-          <EventMeta>
-            <Category /> {tradeOfferEvent?.eventType}
-          </EventMeta>
-          <EventMeta>
-            <Event /> {tradeOfferEvent?.expiryDate.substring(0, 10)}
-          </EventMeta>
-          <ProfileLink to={`/profile/${tradeOfferEvent?.authorId}`}>
+      <ElevatedBox disablePadding>
+        <EventHeader eventType={tradeOfferEvent?.eventType as string}>
+          <EventHeaderContent>
+            <CloseButton size="small" color="secondary" onClick={backToList}>
+              <Close fontSize="small"/>
+            </CloseButton>
+            <Typography variant="h4">{tradeOfferEvent?.name}</Typography>
             <EventMeta>
-              <Person /> {tradeOfferEvent?.author.firstName} {tradeOfferEvent?.author.lastName}
+              <Category /> {tradeOfferEvent?.eventType}
             </EventMeta>
-          </ProfileLink>
-          <EventMeta>
-            <LocationOn /> {tradeOfferEvent ? stringifyEventAddress(tradeOfferEvent) : null}
-          </EventMeta>
-        </EventHeaderContent>
-      </EventHeader>
+            <EventMeta>
+              <Event /> {tradeOfferEvent?.expiryDate.substring(0, 10)}
+            </EventMeta>
+            <ProfileLink to={`/profile/${tradeOfferEvent?.authorId}`}>
+              <EventMeta>
+                <Person /> {tradeOfferEvent?.author.firstName} {tradeOfferEvent?.author.lastName}
+              </EventMeta>
+            </ProfileLink>
+            <EventMeta>
+              <LocationOn /> {tradeOfferEvent ? stringifyEventAddress(tradeOfferEvent) : null}
+            </EventMeta>
+          </EventHeaderContent>
+        </EventHeader>
+      </ElevatedBox>
 
-      <Headline variant="h6" eventType={tradeOfferEvent?.eventType as string}>Offering:</Headline>
-      <Typography>{tradeOfferEvent?.offer}</Typography>
+      <ElevatedBox>
+        <Headline variant="h6" eventType={tradeOfferEvent?.eventType as string}>Offering:</Headline>
+        <Typography>{tradeOfferEvent?.offer}</Typography>
+      </ElevatedBox>
 
-      <Headline variant="h6" eventType={tradeOfferEvent?.eventType as string}>Want to receive:</Headline>
-      <Typography>{tradeOfferEvent?.price}</Typography>
+      <ElevatedBox>
+        <Headline variant="h6" eventType={tradeOfferEvent?.eventType as string}>Want to receive:</Headline>
+        <Typography>{tradeOfferEvent?.price}</Typography>
+      </ElevatedBox>
 
-      <Headline variant="h6" eventType={tradeOfferEvent?.eventType as string}>Description:</Headline>
-      <Typography>{tradeOfferEvent?.description}</Typography>
+      <ElevatedBox>
+        <Headline variant="h6" eventType={tradeOfferEvent?.eventType as string}>Description:</Headline>
+        <Typography>{tradeOfferEvent?.description}</Typography>
 
-      <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        <br />
+        <br />
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        <br />
+        <br />
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </ElevatedBox>
 
-      <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
-
-      <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Typography>
       <EventControls>
         <EventButton 
           variant="contained" 

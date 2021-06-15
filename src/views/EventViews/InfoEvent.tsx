@@ -13,6 +13,8 @@ import {
   EventMeta, 
   CloseButton,
   ProfileLink,
+  ElevatedBox,
+  Headline,
 } from './EventViews-style';
 
 import {  
@@ -21,6 +23,7 @@ import {
   Category,
   Event,
   Person,
+  Send,
 } from '@material-ui/icons';
 
 import { stringifyEventAddress } from 'utils/event';
@@ -60,40 +63,48 @@ const InfoEventView = () => {
 
   return (
     <ViewContainer>
-      <EventHeader eventType={infoEvent?.eventType as string}>
-        <EventHeaderContent>
-          <CloseButton size="small" color="secondary" onClick={backToList}>
-            <Close fontSize="small"/>
-          </CloseButton>
-          <Typography variant="h4">{infoEvent?.name}</Typography>
-          <EventMeta>
-            <Category /> {infoEvent?.eventType}
-          </EventMeta>
-          <EventMeta>
-            <Event /> {infoEvent?.expiryDate.substring(0, 10)}
-          </EventMeta>
-          <ProfileLink to={`/profile/${infoEvent?.authorId}`}>
+      <ElevatedBox disablePadding={true}>
+        <EventHeader eventType={infoEvent?.eventType as string}>
+          <EventHeaderContent>
+            <CloseButton size="small" color="secondary" onClick={backToList}>
+              <Close fontSize="small"/>
+            </CloseButton>
+            <Typography variant="h4">{infoEvent?.name}</Typography>
             <EventMeta>
-              <Person /> {infoEvent?.author.firstName} {infoEvent?.author.lastName}
+              <Category /> {infoEvent?.eventType}
             </EventMeta>
-          </ProfileLink>
-          <EventMeta>
-            <LocationOn /> {infoEvent ? stringifyEventAddress(infoEvent) : null}
-          </EventMeta>
-        </EventHeaderContent>
-      </EventHeader>
+            <EventMeta>
+              <Event /> {infoEvent?.expiryDate.substring(0, 10)}
+            </EventMeta>
+            <ProfileLink to={`/profile/${infoEvent?.authorId}`}>
+              <EventMeta>
+                <Person /> {infoEvent?.author.firstName} {infoEvent?.author.lastName}
+              </EventMeta>
+            </ProfileLink>
+            <EventMeta>
+              <LocationOn /> {infoEvent ? stringifyEventAddress(infoEvent) : null}
+            </EventMeta>
+          </EventHeaderContent>
+        </EventHeader>
+      </ElevatedBox>
 
-      <Typography>{infoEvent?.description}</Typography>
+      <ElevatedBox>
+        <Headline variant="h6" eventType={infoEvent?.eventType as string}>Description:</Headline>
+        <Typography>{infoEvent?.description}</Typography>
 
-      <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-      <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
+        <br />
+        <br />
 
-      <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Typography>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </ElevatedBox>
+
       <EventControls>
         <Button 
           variant="contained" 
           color="primary"
+          endIcon={<Send />}
           disabled={me?.id === infoEvent?.authorId}
           onClick={() => setIsModalOpen(true)}
         >

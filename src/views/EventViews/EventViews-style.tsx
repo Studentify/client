@@ -16,15 +16,18 @@ export const ViewContainer = styled.div`
 
 export const EventHeader = styled.header<{ eventType: string }>`
   display: flex;
-  margin-bottom: 1rem;
+  padding: 1rem 0;
 
   &::before {
     content: '';
+    position: relative;
     height: 100%;
-    width: 20px;
+    top: -1rem;
+    width: 15px;
+    padding: 1rem 0;
     background-color: ${({ eventType }) => getEventColorByEventType(eventType)};
-    border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
   }
 `;
 
@@ -81,6 +84,22 @@ export const ProfileLink = styled(Link)`
   }
 `;
 
+export const ElevatedBox = styled(Typography)<{ disablePadding?: boolean }>`
+  && {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 1rem;
+
+    padding: ${({ disablePadding }) => disablePadding ? '0rem' : '1rem'};
+    background-color: white;
+
+    border-radius: 3px;
+
+    -webkit-box-shadow: 3px 3px 13px -5px #818181;
+    box-shadow: 3px 3px 13px -5px #818181;
+    }
+`;
 
 function getEventColorByEventType(eventType: string) {
   switch(eventType) {
