@@ -101,6 +101,14 @@ export const ElevatedBox = styled(Typography)<{ disablePadding?: boolean }>`
     }
 `;
 
+export const Center = styled.div`
+  display: flex;
+  height: 100%;
+  padding: 2rem;
+  /* justify-content: center; */
+  /* align-items: center; */
+`;
+
 function getEventColorByEventType(eventType: string) {
   switch(eventType) {
     case "INFO": return "#3f51b5";
