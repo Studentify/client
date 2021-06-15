@@ -6,6 +6,7 @@ interface StudentifyEvent {
 	expiryDate: string;
 	description: string;
 	authorId: number;
+	author: StudentifyAccount;
 	location: {
 		coordinates: {
 			longitude: number;
