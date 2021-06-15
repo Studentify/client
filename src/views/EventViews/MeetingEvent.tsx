@@ -85,13 +85,11 @@ const MeetingEventView = () => {
   }
 
   function getAttendanceDeclarationAvailability() {
-    console.log({ meetingEvent, me });
     if (!meetingEvent || !me) {
       return false;
     }
 
     const isAlreadyDeclared = !!meetingEvent.participants.find(participant => participant.id === me.id);
-    console.log({ isAlreadyDeclared, declaredAttendance });
     return !isAlreadyDeclared && !declaredAttendance;
   }
 
