@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import SendIcon from '@material-ui/icons/Send';
 
 interface SendMessageFormProps {
-  onSendMessage(message: string): void;
+  onSendMessage(message: string): Promise<void>;
 }
 
 const SendMessageForm: React.FC<SendMessageFormProps> = ({ onSendMessage }) => {

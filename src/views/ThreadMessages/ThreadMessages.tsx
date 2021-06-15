@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
+import { useSelector } from 'hooks/redux';
 import axios from 'api/axiosInstance';
 
 import { Wrapper, Header } from './ThreadMessages-style';
@@ -14,41 +15,48 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import { Message } from './types';
 
-const messag = [
-  { id: 0, content: "Hello there, I have a question about the event", date: new Date().toISOString(), authorId: 1 },
-  { id: 1, content: "Hi, how can I help you?", date: new Date().toISOString(), authorId: 2 },
-  { id: 2, content: "Ziobro TY KURWO JEBANA", date: new Date().toISOString(), authorId: 1 },
-  { id: 3, content: "Ah shit, here we go again...", date: new Date().toISOString(), authorId: 2 },
-]
+import { deduceInterlocutor } from 'utils/threads';
 
 
 const ThreadMessages = () => {
   const { threadId } = useParams<{ threadId: string }>();
-  const [messages, setMessages] = useState(messag);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [thread, setThread] = useState<ConversationThread>();
+  const me = useSelector(state => state.auth.user);
+  const history = useHistory();
+
+  const interlocutor = deduceInterlocutor(me, thread);
 
   useEffect(() => {
     fetchMessages(threadId);
+    fetchThreadDetails(threadId);
 
     async function fetchMessages(threadId: string) {
       try {
         const res = await axios.get<Message[]>(`/Threads/${threadId}/Messages`);
-        // setMessages(res.data);
+        setMessages(res.data);
       } catch(err) {
         console.log(err);
-        // setMessages([]);
+      }
+    }
+
+    async function fetchThreadDetails(threadId: string) {
+      try {
+        const res = await axios.get<ConversationThread>(`/Threads/${threadId}`);
+        setThread(res.data);
+      } catch(err) {
+        console.log(err);
       }
     }
   }, [threadId, setMessages]);
 
-  const sendMessage = (message: string) => {
-    const newMessage = {
-      id: Math.floor(Math.random()*100000), 
-      content: message,
-      date: new Date().toISOString(), 
-      authorId: 1
-    };
-
-    setMessages([...messages, newMessage]);
+  const sendMessage = async (message: string) => {
+    try {
+      const res = await axios.post<Message>('/Threads/Messages', { threadId, content: message });
+      setMessages(prev => [...prev, res.data]);
+    } catch(err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -60,12 +68,13 @@ const ThreadMessages = () => {
             color="primary"
             type="submit"
             startIcon={<ArrowBackIosIcon />}
+            onClick={() => history.goBack()}
           >
             back
           </Button>
         </Box>
-        <UserProfile />
-        <EventInfo />
+        <UserProfile user={interlocutor}/>
+        <EventInfo event={thread?.referencedEvent}/>
       </Header>
       <Conversation messages={messages}/>
       <SendMessageForm onSendMessage={sendMessage}/>
