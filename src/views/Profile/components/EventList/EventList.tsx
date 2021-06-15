@@ -3,7 +3,6 @@ import axios from "api/axiosInstance";
 
 import IconButton from "@material-ui/core/IconButton";
 import {
-	Info as InfoIcon,
 	Edit as EditIcon,
 	DeleteForever as DeleteForeverIcon,
 	LocationOn as LocationOnIcon,
@@ -66,39 +65,34 @@ const EventList: React.FC<EventListProps> = ({ userId, isAccountOwner }) => {
 		<div key={event.id}>
 			<EventContainer eventType={event.eventType}>
 				<EventShortInfo>
-					<EventContent>
-						<EventHeader>
-							{event.name}
-							<EventDate>{event.expiryDate.substring(0, 10)}</EventDate>
-						</EventHeader>
-						<EventMeta>
-							<LocationOnIcon style={{ fontSize: "1rem", color: "gray" }} />
-							{stringifyEventAddress(event)}
-						</EventMeta>
-						<p>{event.description}</p>
-					</EventContent>
-				</EventShortInfo>
-				<EventController>
 					<BlockLink to={`/home/${event.eventType.toLowerCase()}/${event.id}`}>
-						<IconButton style={{ color: "#4561bd", fontSize: 200 }}>
-							<InfoIcon />
-						</IconButton>
+						<EventContent>
+							<EventHeader>
+								{event.name}
+								<EventDate>{event.expiryDate.substring(0, 10)}</EventDate>
+							</EventHeader>
+							<EventMeta>
+								<LocationOnIcon style={{ fontSize: "1rem", color: "gray" }} />
+								{stringifyEventAddress(event)}
+							</EventMeta>
+							<p>{event.description}</p>
+						</EventContent>
 					</BlockLink>
-					{isAccountOwner ? (
-						<>
-							<IconButton size="medium" style={{ color: "rgb(256, 156, 44)" }}>
-								<EditIcon />
-							</IconButton>
-							<IconButton
-								size="medium"
-								style={{ color: "red" }}
-								onClick={(e) => deleteEvent(e, event.id)}
-							>
-								<DeleteForeverIcon />
-							</IconButton>
-						</>
-					) : null}
-				</EventController>
+				</EventShortInfo>
+				{isAccountOwner ? (
+					<EventController>
+						<IconButton size="medium" style={{ color: "rgb(256, 156, 44)" }}>
+							<EditIcon />
+						</IconButton>
+						<IconButton
+							size="medium"
+							style={{ color: "red" }}
+							onClick={(e) => deleteEvent(e, event.id)}
+						>
+							<DeleteForeverIcon />
+						</IconButton>
+					</EventController>
+				) : null}
 			</EventContainer>
 		</div>
 	));

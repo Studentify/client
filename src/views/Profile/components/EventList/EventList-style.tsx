@@ -48,6 +48,15 @@ export const EventContent = styled.div`
 	flex-direction: column;
 	gap: 0.5rem;
 	background-color: #ffffff;
+
+	&:hover {
+		background-color: #ececec;
+		cursor: pointer;
+	}
+
+	&:active {
+		background-color: #d3d3d3;
+	}
 `;
 
 export const EventHeader = styled.h4`
@@ -75,7 +84,7 @@ export const EventController = styled.section`
 	padding: 1rem;
 	display: flex;
 	gap: 0.5rem;
-	background-color: #ffffff5a;
+	background-color: #e2e2e24e;
 	align-items: center;
 	justify-content: center;
 `;
