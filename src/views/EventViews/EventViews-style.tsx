@@ -60,7 +60,7 @@ export const EventMeta = styled.div`
 
 export const EventButton = styled(Button)<{ eventType: string }>`
   && {
-    color: black;
+    color: ${({ eventType }) => getEventTextColorByEventType(eventType)};
     background-color: ${({ eventType }) => getEventColorByEventType(eventType)};
 
     &:active, &:hover {
@@ -76,5 +76,14 @@ function getEventColorByEventType(eventType: string) {
     case "MEETING": return "#e0be32";
     case "TRADEOFFER": return "#40a85c"
     default: return "#3f51b5";
+  }
+}
+
+function getEventTextColorByEventType(eventType: string) {
+  switch(eventType) {
+    case "INFO": return "#fff";
+    case "MEETING": return "#000";
+    case "TRADEOFFER": return "#fff";
+    default: return "#fff";
   }
 }

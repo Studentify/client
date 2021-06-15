@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { useSelector } from 'hooks/redux';
 import axios from 'api/axiosInstance';
 
 import Typography from '@material-ui/core/Typography';
@@ -10,7 +11,16 @@ import EventIcon from '@material-ui/icons/Event';
 import Button from '@material-ui/core/Button';
 import Modal from "@material-ui/core/Modal";
 
-import { ViewContainer, EventHeader, EventHeaderContent, Headline, EventControls, EventMeta, CloseButton } from './EventViews-style';
+import { 
+  ViewContainer, 
+  EventHeader, 
+  EventHeaderContent, 
+  Headline, 
+  EventControls, 
+  EventMeta, 
+  CloseButton,
+  EventButton
+} from './EventViews-style';
 
 import { MessageForm } from '../Home/components';
 
@@ -29,6 +39,8 @@ interface TradeOfferEvent extends StudentifyEvent {
 const TradeOfferEventView = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tradeOfferEvent, setTradeOfferEvent] = useState<TradeOfferEvent>();
+  const me = useSelector(state => state.auth.user);
+
   const history = useHistory();
   const params = useParams<Params>();
   const eventId = parseInt(params.id);
@@ -86,14 +98,15 @@ const TradeOfferEventView = () => {
 
       <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Typography>
       <EventControls>
-        <Button 
+        <EventButton 
           variant="contained" 
           color="primary"
+          disabled={me?.id === tradeOfferEvent?.authorId}
+          eventType={tradeOfferEvent?.eventType as string}
           onClick={() => setIsModalOpen(true)}
         >
           send message
-        </Button>
-        <Button variant="contained" color="primary">I'm interested</Button>
+        </EventButton>
       </EventControls>
       <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
 				<MessageForm closeModal={() => setIsModalOpen(false)}/>
