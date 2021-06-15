@@ -66,8 +66,8 @@ const ThreadMessages = () => {
     return (
       me?.id === thread?.referencedEvent.authorId 
         ? thread?.userAccount
-        // : thread?.referencedEvent.author;
-        : { id: 1000, firstName: "ROZMÓWCA", lastName: "DUPA", email: "rozmowca@sp.zoo", userName: "ddd" } as StudentifyAccount);
+        : thread?.referencedEvent.author
+    );
   }
 
   return (

@@ -20,7 +20,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
   }
   
   return (
-    <Container>
+    <Container to={`/profile/${user?.id}`}>
       <Avatar>
         <PersonIcon fontSize="large"/>
       </Avatar>
