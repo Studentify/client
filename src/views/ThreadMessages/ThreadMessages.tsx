@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { useSelector } from 'hooks/redux';
 import axios from 'api/axiosInstance';
 
 import { Wrapper, Header } from './ThreadMessages-style';
@@ -20,7 +21,10 @@ const ThreadMessages = () => {
   const { threadId } = useParams<{ threadId: string }>();
   const [messages, setMessages] = useState<Message[]>([]);
   const [thread, setThread] = useState<ConversationThread>();
+  const me = useSelector(state => state.auth.user);
   const history = useHistory();
+
+  const interlocutor = deduceInterlocutor();
 
   useEffect(() => {
     fetchMessages(threadId);
@@ -53,6 +57,18 @@ const ThreadMessages = () => {
       console.log(err);
     }
   }
+  
+  function deduceInterlocutor() {
+    if (!me || !thread) {
+      return undefined;
+    }
+
+    return (
+      me?.id === thread?.referencedEvent.authorId 
+        ? thread?.userAccount
+        // : thread?.referencedEvent.author;
+        : { id: 1000, firstName: "ROZMÓWCA", lastName: "DUPA", email: "rozmowca@sp.zoo", userName: "ddd" } as StudentifyAccount);
+  }
 
   return (
     <Wrapper>
@@ -68,7 +84,7 @@ const ThreadMessages = () => {
             back
           </Button>
         </Box>
-        <UserProfile />
+        <UserProfile user={interlocutor}/>
         <EventInfo event={thread?.referencedEvent}/>
       </Header>
       <Conversation messages={messages}/>
