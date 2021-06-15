@@ -1,97 +1,117 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import axios from "api/axiosInstance";
 
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import IconButton from "@material-ui/core/IconButton";
+import Modal from "@material-ui/core/Modal";
+import { AccountCircle as AccountCircleIcon, Settings as SettingsIcon } from "@material-ui/icons";
 
-import { EventList } from "./components";
-import { Avatar, ProfileLayout, Grid, GridELement, Content } from "./Profile-styles";
+import { updateUser } from "state/auth/actions";
+import { StoreState } from "state/rootReducer";
+import { EventList, Skills, ModifyAccountForm } from "./components";
+import { Avatar, ProfileLayout, Grid, GridELement, Content, UserNameBox } from "./Profile-styles";
 
-// temp mock
-const user = {
-	firstName: "string",
-	lastName: "string",
-	userName: "string",
-	email: "user@example.com",
-};
-
-const events = [
-	{
-		id: 1,
-		eventType: "meeting",
-		name: "meeting name",
-		creationDate: "2021-12-01",
-		expiryDate: "2021-12-02",
-		description: "Lorem lorem ips",
-		studentifyAccountId: 12,
-		location: {
-			coordinates: {
-				longitude: 1,
-				latitude: 1,
-			},
-			address: {
-				country: "poland",
-				town: "Przysucha",
-				postalCode: "223-12",
-				street: "abc",
-				houseNumber: "21",
-			},
-		},
-	},
-];
-// --------------------------
+interface ParamType {
+	userId: string;
+}
 
 const Profile: React.FC = () => {
-	// const [events, setEvents] = useState<Event[]>([]);
+	const dispatch = useDispatch();
+	const { userId } = useParams<ParamType>();
+	const inspectedUserId = parseInt(userId);
 
-	// useEffect(() => {
-	// 	fetchEvents();
+	const ownerUserData = useSelector((state: StoreState) => state.auth.user);
+	const isAccountOwner = inspectedUserId === ownerUserData?.id;
 
-	// 	async function fetchEvents() {
-	// 		try {
-	// 			const res = await axios.get<Event[]>("/Events");
-	// 			setEvents(res.data);
-	// 		} catch (err) {
-	// 			console.log(err);
-	// 		}
-	// 	}
-	// }, []);
+	const [isEditAccountModal, setIsEditAccountModal] = useState(false);
+	const [userData, setUserData] = useState<User>({
+		id: -1,
+		userName: "",
+		firstName: "",
+		lastName: "",
+		email: "",
+	});
+
+	useEffect(() => {
+		fetchUserData(inspectedUserId);
+	}, [inspectedUserId]);
+
+	async function fetchUserData(id: number) {
+		try {
+			const res = await axios.get<User>(`/StudentifyAccounts/${id}`);
+			setUserData(res.data);
+			return res.data;
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
+	async function refreshUserData(id: number) {
+		try {
+			const res = await fetchUserData(id);
+			if (res) {
+				dispatch(updateUser({ ...res }));
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
+	const openEditAccountModal = () => {
+		setIsEditAccountModal(true);
+	};
+
+	const closeEditAccountModal = () => {
+		setIsEditAccountModal(false);
+	};
 
 	return (
 		<ProfileLayout>
 			<Grid container>
-				<GridELement container xs={12} sm={6}>
-					<GridELement item xs={12} sm={6}>
-						<Avatar>
-							<AccountCircleIcon style={{ fontSize: 200 }} />
-						</Avatar>
-					</GridELement>
-					<GridELement item xs={12} sm={6}>
-						<Content>
-							<h1>{user.userName}</h1>
-							<br />
-							<hr />
-							<br />
-							<h3>{user.firstName + " " + user.lastName}</h3>
-							<br />
-							<h3>{user.email}</h3>
-						</Content>
-					</GridELement>
+				<GridELement item xs={12} sm={6}>
+					<Avatar>
+						<AccountCircleIcon style={{ fontSize: 200 }} />
+					</Avatar>
 				</GridELement>
-				<Grid container xs={12} sm={6}>
+				<GridELement item xs={12} sm={6}>
 					<Content>
-						<h1>Skills:</h1>
+						<UserNameBox>
+							<h1>{userData.userName}</h1>
+							{isAccountOwner ? (
+								<IconButton onClick={openEditAccountModal}>
+									<SettingsIcon />
+								</IconButton>
+							) : null}
+						</UserNameBox>
 						<br />
 						<hr />
 						<br />
-						<h3>Gotowanie</h3>
-						<h3>Całki</h3>
-						<h3>Półki</h3>
+						<h3>{userData.firstName + " " + userData.lastName}</h3>
+						<br />
+						<h3>{userData.email}</h3>
+					</Content>
+				</GridELement>
+				<Grid xs={12} item>
+					<Content>
+						<Skills userId={inspectedUserId} isAccountOwner={isAccountOwner} />
 					</Content>
 				</Grid>
 				<Grid item xs={12}>
-					<EventList events={events} />
+					<EventList userId={inspectedUserId} isAccountOwner={isAccountOwner} />
 				</Grid>
 			</Grid>
+
+			{/* line 103 is temporary -> ownerUserData cannot be undefined here */}
+			{ownerUserData ? (
+				<Modal open={isEditAccountModal} onClose={closeEditAccountModal}>
+					<ModifyAccountForm
+						closeModal={closeEditAccountModal}
+						refreshUserData={refreshUserData}
+						currentData={ownerUserData}
+					/>
+				</Modal>
+			) : null}
 		</ProfileLayout>
 	);
 };

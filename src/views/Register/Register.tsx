@@ -1,7 +1,9 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
 
+import { register } from "state/auth/actions";
 import { FormikField } from "components/FormikField";
 import { ContentWrapper } from "styles/ContentWrapper";
 import { OrangeButton } from "styles/OrangeButton";
@@ -38,14 +40,14 @@ const RegisterSchema = Yup.object().shape({
 
 	email: Yup.string().email().required("Email is required"),
 
-	password: Yup.string()
-		.required("Password is required")
-		.min(5, "Must be 5 letters long"),
+	password: Yup.string().required("Password is required").min(5, "Must be 5 letters long"),
 });
 
 const Register: React.FC = () => {
+	const dispatch = useDispatch();
+
 	const handleSubmit = (values: FormValues): void => {
-		alert(JSON.stringify(values));
+		dispatch(register({ ...values }));
 	};
 
 	return (

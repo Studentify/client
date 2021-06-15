@@ -17,11 +17,11 @@ import { MessageForm } from '../Home/components';
 import { stringifyEventAddress } from 'utils/event';
 
 interface Params {
-  id: string;
+	id: string;
 }
 
 interface MeetingEvent extends StudentifyEvent {
-  maxNumberOfParticipants: number
+	maxNumberOfParticipants: number;
 }
 
 
@@ -39,7 +39,7 @@ const MeetingEventView = () => {
 			try {
 				const res = await axios.get<MeetingEvent>(`/Meetings/${eventId}`);
 				setInfoEvent(res.data);
-			} catch(err) {
+			} catch (err) {
 				console.log(err);
 			}
 		}
@@ -94,7 +94,7 @@ const MeetingEventView = () => {
 				<MessageForm closeModal={() => setIsModalOpen(false)}/>
 			</Modal>
     </ViewContainer>
-  )
+  );
 }
 
 export default MeetingEventView;
