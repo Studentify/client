@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-const baseURL = 'https://localhost:44365/api';
+const baseURLDevelopment = 'https://localhost:44365/api';
+// const baseURLProduction = 'https://studentify20210330221435.azurewebsites.net/api';
 
-const instance = axios.create({ baseURL });
+const instance = axios.create({ baseURL: baseURLDevelopment });
 
 instance.interceptors.request.use(function (config) {
   const token = localStorage.getItem('token');

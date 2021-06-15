@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { useSelector } from 'hooks/redux';
 import axios from 'api/axiosInstance';
 
 import Typography from '@material-ui/core/Typography';
@@ -25,6 +26,8 @@ interface InfoEvent extends StudentifyEvent {}
 const InfoEventView = () => {
   const [infoEvent, setInfoEvent] = useState<InfoEvent>();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const me = useSelector(state => state.auth.user);
+
   const history = useHistory();
   const params = useParams<Params>();
   const eventId = parseInt(params.id);
@@ -78,11 +81,11 @@ const InfoEventView = () => {
         <Button 
           variant="contained" 
           color="primary"
+          disabled={me?.id === infoEvent?.authorId}
           onClick={() => setIsModalOpen(true)}
         >
           send message
         </Button>
-        <Button variant="contained" color="primary">I'm interested</Button>
       </EventControls>
       <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
 				<MessageForm closeModal={() => setIsModalOpen(false)}/>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { useSelector } from 'hooks/redux';
 import axios from 'api/axiosInstance';
 
 import Typography from '@material-ui/core/Typography';
@@ -7,11 +8,20 @@ import CloseIcon from '@material-ui/icons/Close';
 import GroupIcon from '@material-ui/icons/Group';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CategoryIcon from '@material-ui/icons/Category';
+import SendIcon from '@material-ui/icons/Send';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import EventIcon from '@material-ui/icons/Event';
-import Button from '@material-ui/core/Button';
 import Modal from "@material-ui/core/Modal";
 
-import { ViewContainer, EventHeader, EventHeaderContent, EventControls, EventMeta, CloseButton } from './EventViews-style';
+import { 
+  ViewContainer, 
+  EventHeader, 
+  EventHeaderContent, 
+  EventControls, 
+  EventMeta, 
+  CloseButton, 
+  EventButton 
+} from './EventViews-style';
 import { MessageForm } from '../Home/components';
 
 import { stringifyEventAddress } from 'utils/event';
@@ -21,16 +31,22 @@ interface Params {
 }
 
 interface MeetingEvent extends StudentifyEvent {
-	maxNumberOfParticipants: number;
+	maxNumberOfParticipants?: number;
+  participants: StudentifyAccount[];
 }
 
 
 const MeetingEventView = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [meetingEvent, setInfoEvent] = useState<MeetingEvent>();
+  const [meetingEvent, setMeetingEvent] = useState<MeetingEvent>();
+  const [declaredAttendance, setDeclaredAttendance] = useState(false);
+  const me = useSelector(state => state.auth.user);
+
   const history = useHistory();
   const params = useParams<Params>();
   const eventId = parseInt(params.id);
+
+  const isAttendaceDeclarationDisabled = !getAttendanceDeclarationAvailability();
 
 	useEffect(() => {
 		fetchInfoEvent(eventId);
@@ -38,15 +54,43 @@ const MeetingEventView = () => {
 		async function fetchInfoEvent(eventId: number) {
 			try {
 				const res = await axios.get<MeetingEvent>(`/Meetings/${eventId}`);
-				setInfoEvent(res.data);
+				setMeetingEvent(res.data);
 			} catch (err) {
 				console.log(err);
 			}
 		}
-	}, [eventId, setInfoEvent]);
+	}, [eventId, setMeetingEvent]);
 
   const backToList = () => {
     history.push('/home');
+  }
+
+  const handleDeclareAttendance = async () => {
+    try {
+      if (me && meetingEvent) {
+        await axios.patch(`/Meetings/attend/${meetingEvent?.id}`);
+        setDeclaredAttendance(true);
+
+        setMeetingEvent({
+          ...meetingEvent,
+          participants: [
+            ...meetingEvent.participants,
+            me
+          ]
+        });
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+  function getAttendanceDeclarationAvailability() {
+    if (!meetingEvent || !me) {
+      return false;
+    }
+
+    const isAlreadyDeclared = !!meetingEvent.participants.find(participant => participant.id === me.id);
+    return !isAlreadyDeclared && !declaredAttendance;
   }
 
   return (
@@ -68,7 +112,8 @@ const MeetingEventView = () => {
             <LocationOnIcon /> {meetingEvent ? stringifyEventAddress(meetingEvent) : null}
           </EventMeta>
           <EventMeta>
-            <GroupIcon /> {`Maksymalna liczba uczestników: ${meetingEvent?.maxNumberOfParticipants}`}
+            <GroupIcon /> 
+            {`Participants: ${meetingEvent?.participants.length}/${meetingEvent?.maxNumberOfParticipants}`}
           </EventMeta>
         </EventHeaderContent>
       </EventHeader>
@@ -81,14 +126,25 @@ const MeetingEventView = () => {
 
       <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Typography>
       <EventControls>
-        <Button 
+        <EventButton 
           variant="contained" 
           color="primary"
+          disabled={me?.id === meetingEvent?.authorId}
+          endIcon={<SendIcon />}
+          eventType={meetingEvent?.eventType as string}
           onClick={() => setIsModalOpen(true)}
         >
           send message
-        </Button>
-        <Button variant="contained" color="primary">I'm interested</Button>
+        </EventButton>
+        <EventButton 
+          variant="contained" 
+          endIcon={<ThumbUpIcon />}
+          eventType={meetingEvent?.eventType as string}
+          disabled={isAttendaceDeclarationDisabled}
+          onClick={handleDeclareAttendance}
+        >
+          {isAttendaceDeclarationDisabled ? "You already participate" : "Declare attendance"}
+        </EventButton>
       </EventControls>
       <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
 				<MessageForm closeModal={() => setIsModalOpen(false)}/>

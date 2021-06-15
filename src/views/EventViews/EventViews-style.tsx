@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Fab from '@material-ui/core/Fab';
-import Typography from '@material-ui/core/Typography';
+import { Typography, Button } from '@material-ui/core';
 
 
 export const ViewContainer = styled.div`
@@ -58,12 +58,32 @@ export const EventMeta = styled.div`
   align-items: center;
 `;
 
+export const EventButton = styled(Button)<{ eventType: string }>`
+  && {
+    color: ${({ eventType }) => getEventTextColorByEventType(eventType)};
+    background-color: ${({ eventType }) => getEventColorByEventType(eventType)};
+
+    &:active, &:hover {
+      background-color: ${({ eventType }) => getEventColorByEventType(eventType)};
+    }
+  }
+`;
+
 
 function getEventColorByEventType(eventType: string) {
   switch(eventType) {
     case "INFO": return "#3f51b5";
-    case "MEETING": return "#ebc634";
+    case "MEETING": return "#e0be32";
     case "TRADEOFFER": return "#40a85c"
     default: return "#3f51b5";
+  }
+}
+
+function getEventTextColorByEventType(eventType: string) {
+  switch(eventType) {
+    case "INFO": return "#fff";
+    case "MEETING": return "#000";
+    case "TRADEOFFER": return "#fff";
+    default: return "#fff";
   }
 }
