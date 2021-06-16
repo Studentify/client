@@ -102,7 +102,6 @@ const Profile: React.FC = () => {
 				</Grid>
 			</Grid>
 
-			{/* line 103 is temporary -> ownerUserData cannot be undefined here */}
 			{ownerUserData ? (
 				<Modal open={isEditAccountModal} onClose={closeEditAccountModal}>
 					<ModifyAccountForm

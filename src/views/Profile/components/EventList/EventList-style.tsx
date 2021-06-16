@@ -77,6 +77,7 @@ export const BlockLink = styled(Link)`
 
 export const EventShortInfo = styled.section`
 	flex: 3;
+	min-width: 200px;
 `;
 
 export const EventController = styled.section`
