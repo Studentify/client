@@ -1,19 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
 
-const baseURLDevelopment = 'https://localhost:44365/api';
-// const baseURLProduction = 'https://studentify20210330221435.azurewebsites.net/api';
+// const baseURLDevelopment = 'https://localhost:44365/api';
+const baseURLProduction = "https://studentify20210330221435.azurewebsites.net/api";
 
-const instance = axios.create({ baseURL: baseURLDevelopment });
+const instance = axios.create({ baseURL: baseURLProduction });
 
 instance.interceptors.request.use(function (config) {
-  const token = localStorage.getItem('token');
+	const token = localStorage.getItem("token");
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
+	if (token) {
+		config.headers.Authorization = `Bearer ${token}`;
+	}
 
-  return config;
+	return config;
 });
-
 
 export default instance;
