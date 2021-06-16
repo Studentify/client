@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "api/axiosInstance";
 
+import Modal from "@material-ui/core/Modal";
 import IconButton from "@material-ui/core/IconButton";
 import {
-	Info as InfoIcon,
 	Edit as EditIcon,
 	DeleteForever as DeleteForeverIcon,
 	LocationOn as LocationOnIcon,
@@ -22,6 +22,7 @@ import {
 } from "./EventList-style";
 
 import { stringifyEventAddress } from "utils/event";
+import { EditEventForm } from "../";
 
 interface EventListProps {
 	userId: number;
@@ -30,6 +31,8 @@ interface EventListProps {
 
 const EventList: React.FC<EventListProps> = ({ userId, isAccountOwner }) => {
 	const [events, setEvents] = useState<StudentifyEvent[]>([]);
+	const [toEditEvent, setToEditEvent] = useState<StudentifyEvent | undefined>();
+	const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
 	useEffect(() => {
 		fetchEvents(userId);
@@ -62,48 +65,75 @@ const EventList: React.FC<EventListProps> = ({ userId, isAccountOwner }) => {
 		}
 	}
 
+	const editEvent = (editedEvent: StudentifyEvent) => {
+		setEvents((prev) =>
+			prev.map((current) => (current.id === editedEvent.id ? editedEvent : current))
+		);
+	};
+
+	const openModal = (event: StudentifyEvent) => {
+		setToEditEvent(event);
+		setIsEditModalOpen(true);
+	};
+
+	const closeModal = () => {
+		setIsEditModalOpen(false);
+	};
+
 	const eventItems = sortedEvents.map((event) => (
 		<div key={event.id}>
 			<EventContainer eventType={event.eventType}>
 				<EventShortInfo>
-					<EventContent>
-						<EventHeader>
-							{event.name}
-							<EventDate>{event.expiryDate.substring(0, 10)}</EventDate>
-						</EventHeader>
-						<EventMeta>
-							<LocationOnIcon style={{ fontSize: "1rem", color: "gray" }} />
-							{stringifyEventAddress(event)}
-						</EventMeta>
-						<p>{event.description}</p>
-					</EventContent>
-				</EventShortInfo>
-				<EventController>
 					<BlockLink to={`/home/${event.eventType.toLowerCase()}/${event.id}`}>
-						<IconButton style={{ color: "#4561bd", fontSize: 200 }}>
-							<InfoIcon />
-						</IconButton>
+						<EventContent>
+							<EventHeader>
+								{event.name}
+								<EventDate>{event.expiryDate.substring(0, 10)}</EventDate>
+							</EventHeader>
+							<EventMeta>
+								<LocationOnIcon style={{ fontSize: "1rem", color: "gray" }} />
+								{stringifyEventAddress(event)}
+							</EventMeta>
+							<p>{event.description}</p>
+						</EventContent>
 					</BlockLink>
-					{isAccountOwner ? (
-						<>
-							<IconButton size="medium" style={{ color: "rgb(256, 156, 44)" }}>
-								<EditIcon />
-							</IconButton>
-							<IconButton
-								size="medium"
-								style={{ color: "red" }}
-								onClick={(e) => deleteEvent(e, event.id)}
-							>
-								<DeleteForeverIcon />
-							</IconButton>
-						</>
-					) : null}
-				</EventController>
+				</EventShortInfo>
+				{isAccountOwner ? (
+					<EventController>
+						<IconButton
+							size="medium"
+							style={{ color: "rgb(256, 156, 44)" }}
+							onClick={() => openModal(event)}
+						>
+							<EditIcon />
+						</IconButton>
+						<IconButton
+							size="medium"
+							style={{ color: "red" }}
+							onClick={(e) => deleteEvent(e, event.id)}
+						>
+							<DeleteForeverIcon />
+						</IconButton>
+					</EventController>
+				) : null}
 			</EventContainer>
 		</div>
 	));
 
-	return <List>{eventItems}</List>;
+	return (
+		<>
+			<List>{eventItems}</List>
+			{toEditEvent ? (
+				<Modal open={isEditModalOpen} onClose={closeModal}>
+					<EditEventForm
+						onEditEvent={editEvent}
+						closeModal={closeModal}
+						toEditEvent={toEditEvent}
+					/>
+				</Modal>
+			) : null}
+		</>
+	);
 };
 
 export default EventList;

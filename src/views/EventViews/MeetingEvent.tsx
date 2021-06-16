@@ -30,7 +30,7 @@ import {
   ThumbUp,
 } from '@material-ui/icons';
 
-import { stringifyEventAddress } from 'utils/event';
+import { stringifyEventAddress } from "utils/event";
 
 interface Params {
 	id: string;
@@ -41,8 +41,8 @@ interface MeetingEvent extends StudentifyEvent {
   participants: StudentifyAccount[];
 }
 
-
 const MeetingEventView = () => {
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [meetingEvent, setMeetingEvent] = useState<MeetingEvent>();
@@ -52,6 +52,7 @@ const MeetingEventView = () => {
   const history = useHistory();
   const params = useParams<Params>();
   const eventId = parseInt(params.id);
+
 
   const isAttendaceDeclarationDisabled = !getAttendanceDeclarationAvailability();
 
@@ -70,9 +71,10 @@ const MeetingEventView = () => {
 		}
 	}, [eventId, setMeetingEvent]);
 
-  const backToList = () => {
-    history.push('/home');
-  }
+
+	const backToList = () => {
+		history.goBack();
+	};
 
   const handleDeclareAttendance = async () => {
     try {

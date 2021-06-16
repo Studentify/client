@@ -28,7 +28,7 @@ import {
   Send,
 } from '@material-ui/icons';
 
-import { stringifyEventAddress } from 'utils/event';
+import { stringifyEventAddress } from "utils/event";
 
 interface Params {
 	id: string;
@@ -39,8 +39,8 @@ interface TradeOfferEvent extends StudentifyEvent {
 	offer: string;
 }
 
-
 const TradeOfferEventView = () => {
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [tradeOfferEvent, setTradeOfferEvent] = useState<TradeOfferEvent>();
@@ -65,9 +65,9 @@ const TradeOfferEventView = () => {
 		}
 	}, [eventId, setTradeOfferEvent]);
 
-  const backToList = () => {
-    history.push('/home');
-  }
+	const backToList = () => {
+		history.goBack();
+	};
 
   return (
     <>

@@ -1,9 +1,9 @@
 export interface MeetingEventAttributes {
 	name: string;
 	expiryDate: string;
+	description: string;
 	longitude: number;
 	latitude: number;
-	description: string;
 	address: {
 		country?: string;
 		town?: string;
@@ -14,8 +14,13 @@ export interface MeetingEventAttributes {
 	maxNumberOfParticipants: number;
 }
 
-export interface AddMeetingEventFormProps {
+export interface EditMeetingEventFormProps {
 	closeModal(): void;
-	onAddEvent(event: StudentifyEvent): void;
+	onEditEvent(event: StudentifyEvent): void;
 	goBack(): void;
+	toEditEvent: StudentifyEvent;
+}
+
+export interface MeetingEvent extends StudentifyEvent {
+	maxNumberOfParticipants: number;
 }

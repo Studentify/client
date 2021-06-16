@@ -1,9 +1,9 @@
 export interface InfoEventAttributes {
 	name: string;
 	expiryDate: string;
+	description: string;
 	longitude: number;
 	latitude: number;
-	description: string;
 	address: {
 		country?: string;
 		town?: string;
@@ -14,8 +14,9 @@ export interface InfoEventAttributes {
 	category: number;
 }
 
-export interface AddInfoEventFormProps {
+export interface EditInfoEventFormProps {
 	closeModal(): void;
-	onAddEvent(event: StudentifyEvent): void;
+	onEditEvent(event: StudentifyEvent): void;
 	goBack(): void;
+	toEditEvent: StudentifyEvent;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "api/axiosInstance";
 import { useFormikContext, Field, Formik } from "formik";
 import * as yup from "yup";
@@ -14,26 +14,15 @@ import {
 	AddressInformation,
 	ErrorMessage,
 	Controls,
-} from "./AddTradeOfferEventForm-style";
-import { Typography, Button, TextField } from "@material-ui/core";
+} from "./EditTradeOfferEventForm-style";
+import { Typography, Button, TextField, LinearProgress } from "@material-ui/core";
 import LocationCityIcon from "@material-ui/icons/LocationCity";
 
 import { getAddressFromLonLat } from "utils/map";
 
-import { TradeOfferEventAttributes, AddTradeOfferEventFormProps } from "./types";
+import { TradeOfferEventAttributes, EditTradeOfferEventFormProps, TradeOfferEvent } from "./types";
 
-const initialValues: TradeOfferEventAttributes = {
-	name: "",
-	expiryDate: new Date().toISOString().substring(0, 10),
-	longitude: 19.916,
-	latitude: 50.067,
-	description: "",
-	address: {},
-	price: "",
-	offer: "",
-};
-
-const MeetingEventSchema = yup.object().shape({
+const TradeOfferEventSchema = yup.object().shape({
 	name: yup
 		.string()
 		.required("Event name is required")
@@ -46,15 +35,27 @@ const MeetingEventSchema = yup.object().shape({
 		.string()
 		.required("Description name is required")
 		.min(20, "Minimum 20 characters"),
-	address: yup.object({
-		town: yup.string().required(),
-	}),
 	price: yup.string().required("Price is required").min(5, "Minimum 5 characters"),
 	offer: yup.string().required("Offer subject is required").min(5, "Minimum 5 characters"),
 });
 
-const TradeOfferAttributesEventForm: React.FC<{ goBack: () => void }> = ({ goBack }) => {
-	const [placeName, setPlaceName] = useState("");
+interface Address {
+	country?: string;
+	town?: string;
+	postalCode?: string;
+	street?: string;
+	houseNumber?: string;
+}
+
+const TradeOfferAttributesEventForm: React.FC<{ goBack: () => void; currentAddress: Address }> = ({
+	goBack,
+	currentAddress,
+}) => {
+	const [placeName, setPlaceName] = useState(
+		`${currentAddress.street || ""} ${currentAddress.houseNumber || ""}, ${currentAddress.town} ${
+			currentAddress.postalCode
+		}`
+	);
 	const { dirty, isValid, setFieldValue } = useFormikContext();
 
 	const handleChooseLocation = async (e: ol.MapBrowserEvent) => {
@@ -148,7 +149,7 @@ const TradeOfferAttributesEventForm: React.FC<{ goBack: () => void }> = ({ goBac
 						back
 					</Button>
 					<Button variant="contained" color="primary" disabled={!dirty || !isValid} type="submit">
-						Add event
+						Edit event
 					</Button>
 				</Controls>
 			</Row>
@@ -156,26 +157,77 @@ const TradeOfferAttributesEventForm: React.FC<{ goBack: () => void }> = ({ goBac
 	);
 };
 
-const AddTradeOfferEventForm: React.FC<AddTradeOfferEventFormProps> = ({
-	onAddEvent,
+const EditTradeOfferEventForm: React.FC<EditTradeOfferEventFormProps> = ({
+	onEditEvent,
 	closeModal,
 	goBack,
+	toEditEvent,
 }) => {
+	const [isLoading, setIsLoading] = useState(true);
+	const [initialValues, setInitialValues] = useState<TradeOfferEventAttributes>({
+		name: "",
+		expiryDate: "",
+		description: "",
+		longitude: 0,
+		latitude: 0,
+		address: {},
+		offer: "",
+		price: "",
+	});
+
+	useEffect(() => {
+		fetchInfoEvent(toEditEvent.id);
+
+		async function fetchInfoEvent(eventId: number) {
+			setIsLoading(true);
+			try {
+				const { data } = await axios.get<TradeOfferEvent>(`/TradeOffers/${eventId}`);
+
+				setInitialValues({
+					name: data.name,
+					expiryDate: getFormatedExpiryDate(data.expiryDate),
+					description: data.description,
+					longitude: data.location.coordinates.longitude,
+					latitude: data.location.coordinates.latitude,
+					address: data.location.address,
+					offer: data.offer,
+					price: data.price,
+				});
+
+				setIsLoading(false);
+			} catch (err) {
+				console.log(err);
+			}
+		}
+	}, [toEditEvent]);
+
+	function getFormatedExpiryDate(toFormatDate: string) {
+		return toFormatDate.split("T")[0];
+	}
+
 	const handleSubmit = async (values: TradeOfferEventAttributes) => {
-		const res = await axios.post<StudentifyEvent>("/TradeOffers", values);
-		onAddEvent(res.data);
+		await axios.patch<TradeOfferEvent>(`/TradeOffers/${toEditEvent.id}`, values);
+
+		const res = await axios.get<TradeOfferEvent>(`/TradeOffers/${toEditEvent.id}`);
+		onEditEvent(res.data);
 		closeModal();
 	};
 
 	return (
-		<Formik
-			initialValues={initialValues}
-			validationSchema={MeetingEventSchema}
-			onSubmit={handleSubmit}
-		>
-			<TradeOfferAttributesEventForm goBack={goBack} />
-		</Formik>
+		<>
+			{isLoading ? (
+				<LinearProgress />
+			) : (
+				<Formik
+					initialValues={initialValues}
+					validationSchema={TradeOfferEventSchema}
+					onSubmit={handleSubmit}
+				>
+					<TradeOfferAttributesEventForm goBack={goBack} currentAddress={initialValues.address} />
+				</Formik>
+			)}
+		</>
 	);
 };
 
-export default AddTradeOfferEventForm;
+export default EditTradeOfferEventForm;

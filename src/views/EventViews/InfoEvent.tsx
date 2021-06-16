@@ -27,7 +27,7 @@ import {
   Send,
 } from '@material-ui/icons';
 
-import { stringifyEventAddress } from 'utils/event';
+import { stringifyEventAddress } from "utils/event";
 
 interface Params {
 	id: string;
@@ -35,8 +35,8 @@ interface Params {
 
 interface InfoEvent extends StudentifyEvent {}
 
-
 const InfoEventView = () => {
+
   const [infoEvent, setInfoEvent] = useState<InfoEvent>();
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,6 +45,7 @@ const InfoEventView = () => {
   const history = useHistory();
   const params = useParams<Params>();
   const eventId = parseInt(params.id);
+
 
 	useEffect(() => {
     setIsLoading(true);
@@ -61,9 +62,10 @@ const InfoEventView = () => {
 		}
 	}, [eventId, setInfoEvent]);
 
-  const backToList = () => {
-    history.push('/home');
-  }
+
+	const backToList = () => {
+		history.goBack();
+	};
 
   return (
     <>

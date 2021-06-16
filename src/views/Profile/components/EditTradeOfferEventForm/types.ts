@@ -1,9 +1,9 @@
 export interface TradeOfferEventAttributes {
 	name: string;
 	expiryDate: string;
+	description: string;
 	longitude: number;
 	latitude: number;
-	description: string;
 	address: {
 		country?: string;
 		town?: string;
@@ -15,8 +15,14 @@ export interface TradeOfferEventAttributes {
 	price: string;
 }
 
-export interface AddTradeOfferEventFormProps {
+export interface EditTradeOfferEventFormProps {
 	closeModal(): void;
-	onAddEvent(event: StudentifyEvent): void;
+	onEditEvent(event: StudentifyEvent): void;
 	goBack(): void;
+	toEditEvent: StudentifyEvent;
+}
+
+export interface TradeOfferEvent extends StudentifyEvent {
+	offer: string;
+	price: string;
 }

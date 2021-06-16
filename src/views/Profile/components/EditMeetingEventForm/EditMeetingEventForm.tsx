@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "api/axiosInstance";
 import { useFormikContext, Field, Formik } from "formik";
 import * as yup from "yup";
@@ -13,23 +13,13 @@ import {
 	AddressInformation,
 	ErrorMessage,
 	Controls,
-} from "./AddMeetingEventForm-style";
-import { Typography, Button, TextField } from "@material-ui/core";
+} from "./EditMeetingEventForm-style";
+import { Typography, Button, TextField, LinearProgress } from "@material-ui/core";
 import LocationCityIcon from "@material-ui/icons/LocationCity";
 
 import { getAddressFromLonLat } from "utils/map";
 
-import { MeetingEventAttributes, AddMeetingEventFormProps } from "./types";
-
-const initialValues: MeetingEventAttributes = {
-	name: "",
-	expiryDate: new Date().toISOString().substring(0, 10),
-	longitude: 19.916,
-	latitude: 50.067,
-	description: "",
-	maxNumberOfParticipants: 0,
-	address: {},
-};
+import { MeetingEventAttributes, EditMeetingEventFormProps, MeetingEvent } from "./types";
 
 const MeetingEventSchema = yup.object().shape({
 	name: yup
@@ -44,14 +34,26 @@ const MeetingEventSchema = yup.object().shape({
 		.string()
 		.required("Description name is required")
 		.min(20, "Minimum 20 characters"),
-	address: yup.object({
-		town: yup.string().required(),
-	}),
 	maxNumberOfParticipants: yup.number().min(2, "At least 2 participants required"),
 });
 
-const MeetingEventAttributesForm: React.FC<{ goBack: () => void }> = ({ goBack }) => {
-	const [placeName, setPlaceName] = useState("");
+interface Address {
+	country?: string;
+	town?: string;
+	postalCode?: string;
+	street?: string;
+	houseNumber?: string;
+}
+
+const MeetingEventAttributesForm: React.FC<{ goBack: () => void; currentAddress: Address }> = ({
+	goBack,
+	currentAddress,
+}) => {
+	const [placeName, setPlaceName] = useState(
+		`${currentAddress.street || ""} ${currentAddress.houseNumber || ""}, ${currentAddress.town} ${
+			currentAddress.postalCode
+		}`
+	);
 	const { dirty, isValid, setFieldValue } = useFormikContext();
 
 	const handleChooseLocation = async (e: ol.MapBrowserEvent) => {
@@ -129,7 +131,7 @@ const MeetingEventAttributesForm: React.FC<{ goBack: () => void }> = ({ goBack }
 						back
 					</Button>
 					<Button variant="contained" color="primary" disabled={!dirty || !isValid} type="submit">
-						Add event
+						Edit event
 					</Button>
 				</Controls>
 			</Row>
@@ -137,26 +139,75 @@ const MeetingEventAttributesForm: React.FC<{ goBack: () => void }> = ({ goBack }
 	);
 };
 
-const AddMeetingEventForm: React.FC<AddMeetingEventFormProps> = ({
-	onAddEvent,
+const EditMeetingEventForm: React.FC<EditMeetingEventFormProps> = ({
+	onEditEvent,
 	closeModal,
 	goBack,
+	toEditEvent,
 }) => {
+	const [isLoading, setIsLoading] = useState(true);
+	const [initialValues, setInitialValues] = useState<MeetingEventAttributes>({
+		name: "",
+		expiryDate: "",
+		description: "",
+		longitude: 0,
+		latitude: 0,
+		address: {},
+		maxNumberOfParticipants: 0,
+	});
+
+	useEffect(() => {
+		fetchInfoEvent(toEditEvent.id);
+
+		async function fetchInfoEvent(eventId: number) {
+			setIsLoading(true);
+			try {
+				const { data } = await axios.get<MeetingEvent>(`/Meetings/${eventId}`);
+
+				setInitialValues({
+					name: data.name,
+					expiryDate: getFormatedExpiryDate(data.expiryDate),
+					description: data.description,
+					longitude: data.location.coordinates.longitude,
+					latitude: data.location.coordinates.latitude,
+					address: data.location.address,
+					maxNumberOfParticipants: data.maxNumberOfParticipants,
+				});
+
+				setIsLoading(false);
+			} catch (err) {
+				console.log(err);
+			}
+		}
+	}, [toEditEvent]);
+
+	function getFormatedExpiryDate(toFormatDate: string) {
+		return toFormatDate.split("T")[0];
+	}
+
 	const handleSubmit = async (values: MeetingEventAttributes) => {
-		const res = await axios.post<StudentifyEvent>("/Meetings", values);
-		onAddEvent(res.data);
+		await axios.patch<StudentifyEvent>(`/Meetings/${toEditEvent.id}`, values);
+
+		const res = await axios.get<StudentifyEvent>(`/Meetings/${toEditEvent.id}`);
+		onEditEvent(res.data);
 		closeModal();
 	};
 
 	return (
-		<Formik
-			initialValues={initialValues}
-			validationSchema={MeetingEventSchema}
-			onSubmit={handleSubmit}
-		>
-			<MeetingEventAttributesForm goBack={goBack} />
-		</Formik>
+		<>
+			{isLoading ? (
+				<LinearProgress />
+			) : (
+				<Formik
+					initialValues={initialValues}
+					validationSchema={MeetingEventSchema}
+					onSubmit={handleSubmit}
+				>
+					<MeetingEventAttributesForm goBack={goBack} currentAddress={initialValues.address} />
+				</Formik>
+			)}
+		</>
 	);
 };
 
-export default AddMeetingEventForm;
+export default EditMeetingEventForm;
