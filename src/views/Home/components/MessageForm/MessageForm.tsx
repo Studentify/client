@@ -30,8 +30,7 @@ const MessageForm = React.forwardRef<HTMLElement, MessageFormProps>(({ closeModa
 
     try {
       const { id: threadId } = (await axios.post<{ id: number }>(`/Threads?eventId=${id}`)).data;
-      const res = await axios.post('/Threads/Messages', { threadId, content: content });
-      console.log(res.data);
+      await axios.post('/Threads/Messages', { threadId, content: content });
       closeModal();
     } catch(err) {
       console.log(err);

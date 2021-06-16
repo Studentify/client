@@ -6,6 +6,7 @@ interface StudentifyEvent {
 	expiryDate: string;
 	description: string;
 	authorId: number;
+	author: StudentifyAccount;
 	location: {
 		coordinates: {
 			longitude: number;
@@ -18,8 +19,17 @@ interface StudentifyEvent {
 			street?: string;
 			houseNumber?: string;
 		};
-	};
+	}
 }
+
+interface StudentifyAccount {
+	id: number;
+	email: string;
+	firstName: string;
+	lastName: string;
+	userName: string;
+}
+
 interface User {
 	id: number;
 	userName: string;
@@ -32,4 +42,18 @@ interface Skill {
 	name: string;
 	rate: number;
 	ownerId: number;
+}
+
+interface ConversationThread {
+  id: number;
+  lastMessage: {
+    id: number;
+    threadId: number;
+    author: StudentifyAccount;
+    content: string;
+    date: string;
+    isViewed: boolean;
+  }
+  referencedEvent: StudentifyEvent;
+  userAccount: StudentifyAccount;
 }
